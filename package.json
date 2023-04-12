@@ -1,0 +1,11 @@
+{
+  "name": "electroshop",
+  "version": "1.0.0",
+  "description": "Electronics e-commerce app",
+  "main": "Backend/server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "vahoaka",
+  "license": "ISC"
+}
