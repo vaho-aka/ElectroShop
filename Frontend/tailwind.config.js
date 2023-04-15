@@ -11,7 +11,7 @@ export default {
         },
       },
       animation: {
-        'slide-down': 'slide-down 300ms ease-out forwards',
+        'slide-down': 'slide-down 200ms ease-in forwards',
       },
     },
   },

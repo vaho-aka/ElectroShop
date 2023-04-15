@@ -3,22 +3,10 @@ import { createSlice } from '@reduxjs/toolkit';
 export const cart = createSlice({
   name: 'cart',
   initialState: {
-    items: [
-      {
-        _id: 'p1',
-        name: 'Roccat Vulcan 121',
-        price: '129 000',
-        description:
-          'Clavier de Jeu Noir, gaming mécanique RGB, Rétro-Éclarage LED Aimo Multicolore touche par touche, Switchs Titan Linear, Conception Durable (Plaque Supérieure en aluminium)',
-        brand: 'Roccat',
-        category: 'Clavier',
-        countInStock: 7,
-        amount: 1,
-        imageUrl: '/images/Keyboard_Roccat.png',
-      },
-    ],
+    items: [],
+    shippingAddress: {},
     showCart: false,
-    totalAmount: 129000,
+    totalAmount: 0,
   },
   reducers: {
     ADD_ITEM(state, action) {
@@ -73,6 +61,9 @@ export const cart = createSlice({
     },
     SHOW_CART(state) {
       state.showCart = !state.showCart;
+    },
+    ADD_SHIPPING_ADDRESS(state, action) {
+      state.shippingAddress = action.payload;
     },
   },
 });

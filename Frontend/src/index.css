@@ -10,6 +10,8 @@
 
 body {
   font-family: 'Poppins';
+  padding: 0 !important;
+  overflow: visible !important;
 }
 
 input::-webkit-outer-spin-button,
@@ -21,4 +23,9 @@ input::-webkit-inner-spin-button {
 input[type='number'] {
   -moz-appearance: textfield;
   appearance: textfield;
+}
+
+.main {
+  min-height: calc(100vh - 151px);
+  height: 100%;
 }

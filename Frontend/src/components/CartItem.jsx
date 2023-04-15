@@ -25,8 +25,8 @@ const CartItem = ({ item }) => {
   };
 
   return (
-    <div className="w-full flex items-center my-2">
-      <div className="w-[10rem] h-[6.25rem]">
+    <div className="w-full flex items-center my-2 bg-slate-100 rounded">
+      <div className="w-[10rem] h-[6.25rem] my-2">
         <img
           className="object-contain object-center w-full h-full"
           src={item.imageUrl}
@@ -37,13 +37,13 @@ const CartItem = ({ item }) => {
         <h3>{item.name}</h3>
         <h6>{item.price} Ar</h6>
       </div>
-      <div className="flex items-center gap-5 p-4 max-w-fit ml-auto">
+      <div className="flex flex-col sm:flex-row items-center gap-5 p-4 max-w-fit ml-auto">
         <button className="bg-gray-400 rounded" onClick={descreaseItemNumber}>
           <Minus size={24} color="#f1f5f9" />
         </button>
         <input
           type="number"
-          className="w-10 text-center"
+          className="w-10 text-center focus:outline-none"
           value={itemNumber}
           onChange={(e) => setItemNumber(e.target.value)}
           min={1}

@@ -3,12 +3,19 @@ import Modal from './Modal.jsx';
 import { useSelector, useDispatch } from 'react-redux';
 import CartItem from './CartItem.jsx';
 import { cartActions } from '../reducers/cartReducer.js';
+import { useNavigate } from 'react-router-dom';
 
 const Cart = () => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const { items, totalAmount } = useSelector((state) => state.cart);
 
   const showCartHandler = () => {
+    dispatch(cartActions.SHOW_CART());
+  };
+
+  const clickHandler = () => {
+    navigate('/shipping');
     dispatch(cartActions.SHOW_CART());
   };
 
@@ -30,7 +37,11 @@ const Cart = () => {
         >
           Fermer
         </button>
-        <button className="py-1 px-6 bg-emerald-600 rounded text-white">
+        <button
+          onClick={clickHandler}
+          disabled={items.length > 0 ? false : true}
+          className="py-1 px-6 bg-emerald-600 rounded text-white disabled:cursor-not-allowed disabled:bg-gray-600 disabled:text-gray-300"
+        >
           Commander
         </button>
       </div>
