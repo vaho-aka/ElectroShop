@@ -1,10 +1,10 @@
-import React from 'react';
+import React, { ReactNode } from 'react';
 import { NavLink } from 'react-router-dom';
-import { useSelector } from 'react-redux';
 import { Check } from '@phosphor-icons/react';
+import { useAppSelector } from '../hooks';
 
-const Stepper = ({ children }) => {
-  const { shippingAddress } = useSelector((state) => state.cart);
+const Stepper: React.FC<{ children: ReactNode }> = ({ children }) => {
+  const { shippingAddress } = useAppSelector((state) => state.cart);
 
   return (
     <div className="sm:min-w-[40rem] md:min-w-[50rem] lg:min-w-[60rem] w-full">

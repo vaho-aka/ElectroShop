@@ -1,9 +1,10 @@
 import { createSlice } from '@reduxjs/toolkit';
+import { Item } from '../models/Model';
 
 export const order = createSlice({
   name: 'order',
   initialState: {
-    orderDetails: {},
+    orderDetails: Item,
     loading: false,
     error: '',
   },

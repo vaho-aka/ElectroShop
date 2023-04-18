@@ -1,27 +1,32 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Plus, Minus } from '@phosphor-icons/react';
 import { cartActions } from '../reducers/cartReducer.js';
-import { useDispatch } from 'react-redux';
+import { CartItem as Item } from '../models/Model.js';
+import { useAppDispatch } from '../hooks.js';
 
-const CartItem = ({ item }) => {
-  const dispatch = useDispatch();
+const CartItem: React.FC<{ item: Item }> = ({ item }) => {
+  const dispatch = useAppDispatch();
   const [itemNumber, setItemNumber] = useState(item.amount);
+
+  useEffect(() => {
+    console.log(itemNumber);
+  }, [itemNumber]);
 
   const inscreaseItemNumber = () => {
     if (item.countInStock > itemNumber) {
       setItemNumber((itemNumber) => itemNumber + 1);
-    }
 
-    const product = { ...item, amount: 1 };
-    dispatch(cartActions.ADD_ITEM(product));
+      const product = { ...item, amount: 1 };
+      dispatch(cartActions.ADD_ITEM(product));
+    }
   };
 
   const descreaseItemNumber = () => {
-    if (itemNumber > 1) {
+    if (itemNumber >= 1) {
       setItemNumber((itemNumber) => itemNumber - 1);
-    }
 
-    dispatch(cartActions.REMOVE_ITEM(item._id));
+      dispatch(cartActions.REMOVE_ITEM(item._id));
+    }
   };
 
   return (
@@ -45,7 +50,9 @@ const CartItem = ({ item }) => {
           type="number"
           className="w-10 text-center focus:outline-none"
           value={itemNumber}
-          onChange={(e) => setItemNumber(e.target.value)}
+          onChange={(e: React.FormEvent<HTMLInputElement>) =>
+            setItemNumber(+e.currentTarget.value)
+          }
           min={1}
           max={item.countInStock}
         />

@@ -1,28 +1,28 @@
-import React, { useEffect, useState } from 'react';
+import React, { ReactNode, useEffect, useState } from 'react';
 import MainNaviagation from './MainNaviagation.jsx';
 import Cart from './Cart.jsx';
-import { useSelector } from 'react-redux';
 import ArrowButton from './ArrowButton.jsx';
 import Footer from './Footer';
+import { useAppSelector } from '../hooks.js';
+import { useLocation } from 'react-router-dom';
 
-const Layout = ({ children }) => {
-  const { showCart } = useSelector((state) => state.cart);
+const Layout: React.FC<{ children: ReactNode }> = ({ children }) => {
+  const { pathname } = useLocation();
+  const { showCart } = useAppSelector((state) => state.cart);
 
   const [showButton, setShowButton] = useState(false);
 
   useEffect(() => {
-    const handleScroll = () => {
-      const scrollPosition = window.innerHeight + window.scrollY;
-      const pageHeight = document.body.offsetHeight;
+    window.scrollTo(0, 0);
+  }, [pathname]);
 
-      if (
-        document.body.scrollHeight - 50 >= window.innerHeight &&
-        scrollPosition === pageHeight
-      ) {
-        setShowButton(true);
-      } else {
-        setShowButton(false);
-      }
+  useEffect(() => {
+    const handleScroll = () => {
+      const isBottom =
+        window.innerHeight + window.pageYOffset >=
+        document.body.scrollHeight - 50;
+
+      setShowButton(isBottom);
     };
 
     window.addEventListener('scroll', handleScroll);

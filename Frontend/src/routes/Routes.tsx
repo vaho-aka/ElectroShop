@@ -1,4 +1,4 @@
-import React, { Suspense, lazy } from 'react';
+import { Suspense, lazy } from 'react';
 import { Routes as Router, Route } from 'react-router-dom';
 
 import LoadingSpinner from '../components/LoadingSpinner';
@@ -14,7 +14,7 @@ const Routes = () => {
   return (
     <Suspense fallback={<LoadingSpinner />}>
       <Router>
-        <Route path="/" exact element={<HomePage />} />
+        <Route path="/" element={<HomePage />} />
         <Route path="/details/:productId" element={<ProductPage />} />
         <Route path="/sign" element={<SignPage />} />
         <Route path="/register" element={<RegisterPage />} />

@@ -1,13 +1,12 @@
-import React from 'react';
 import { Link } from 'react-router-dom';
 import { ShoppingCartSimple } from '@phosphor-icons/react';
-import { useDispatch, useSelector } from 'react-redux';
 import { cartActions } from '../reducers/cartReducer.js';
 import MenuAccount from './MenuAccount.jsx';
+import { useAppDispatch, useAppSelector } from '../hooks.js';
 
 const MainNaviagation = () => {
-  const dispatch = useDispatch();
-  const { items } = useSelector((state) => state.cart);
+  const dispatch = useAppDispatch();
+  const { items } = useAppSelector((state) => state.cart);
 
   const showCartHandler = () => {
     dispatch(cartActions.SHOW_CART());

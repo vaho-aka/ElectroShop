@@ -1,11 +1,11 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 
 const ShippingPage = () => {
   const [address, setAddress] = useState('');
   const [neighbour, setNeighbour] = useState('');
   const [city, setCity] = useState('');
 
-  const submitHandler = (e) => {
+  const submitHandler = (e: React.FormEvent) => {
     e.preventDefault();
   };
 
@@ -20,7 +20,9 @@ const ShippingPage = () => {
             id="address"
             placeholder="Entrer votre adresse"
             required
-            onChange={(e) => setAddress(e.target.value)}
+            onChange={(e: React.FormEvent<HTMLInputElement>) =>
+              setAddress(e.currentTarget.value)
+            }
             className="border p-2 focus:outline-none rounded h-12"
           />
         </div>
@@ -31,7 +33,9 @@ const ShippingPage = () => {
             id="neibour"
             placeholder="Entrer votre quartier"
             required
-            onChange={(e) => setNeighbour(e.target.value)}
+            onChange={(e: React.FormEvent<HTMLInputElement>) =>
+              setNeighbour(e.currentTarget.value)
+            }
             className="border p-2 focus:outline-none rounded h-12"
           />
         </div>
@@ -42,7 +46,9 @@ const ShippingPage = () => {
             id="city"
             placeholder="Entrer votre ville"
             required
-            onChange={(e) => setCity(e.target.value)}
+            onChange={(e: React.FormEvent<HTMLInputElement>) =>
+              setCity(e.currentTarget.value)
+            }
             className="border p-2 focus:outline-none rounded h-12"
           />
         </div>

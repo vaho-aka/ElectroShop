@@ -1,6 +1,7 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { PayloadAction, createSlice } from '@reduxjs/toolkit';
+import { Item } from '../models/Model';
 
-const products = [
+const productsData = [
   {
     _id: 'p1',
     name: 'Roccat Vulcan 121',
@@ -67,28 +68,36 @@ const products = [
   },
 ];
 
-export const product = createSlice({
+interface ProductState {
+  products: Array<Item>;
+  loading: boolean;
+  error: string;
+}
+
+const initialState: ProductState = {
+  products: productsData,
+  loading: false,
+  error: '',
+};
+
+const productReducer = createSlice({
   name: 'product',
-  initialState: {
-    products: products,
-    loading: false,
-    error: '',
-  },
+  initialState,
   reducers: {
     GET_PRODUCT_REQUEST(state) {
       state.loading = true;
     },
-    GET_PRODUCT_SUCCESS(state, action) {
+    GET_PRODUCT_SUCCESS(state, action: PayloadAction<Item[]>) {
       state.loading = false;
       state.products = action.payload;
       state.error = '';
     },
-    GET_PRODUCT_FAIL(state, action) {
+    GET_PRODUCT_FAIL(state, action: PayloadAction<string>) {
       state.loading = false;
       state.error = action.payload;
     },
   },
 });
 
-export const productReducer = product.reducer;
-export const productActions = product.actions;
+export const productActions = productReducer.actions;
+export default productReducer.reducer;

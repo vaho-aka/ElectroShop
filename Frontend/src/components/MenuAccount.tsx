@@ -34,10 +34,10 @@ const paperProps = {
 };
 
 const MenuAccount = () => {
-  const [anchorEl, setAnchorEl] = useState(null);
+  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
 
-  const handleClick = (event) => {
+  const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
     setAnchorEl(event.currentTarget);
   };
   const handleClose = () => {
@@ -46,7 +46,7 @@ const MenuAccount = () => {
 
   return (
     <>
-      <IconButton onClick={handleClick}>
+      <IconButton sx={{ p: 0 }} onClick={handleClick}>
         <List color="#f3f4f6" size={32} />
       </IconButton>
       <Menu

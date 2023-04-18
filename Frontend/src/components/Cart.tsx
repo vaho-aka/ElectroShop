@@ -1,14 +1,13 @@
-import React from 'react';
 import Modal from './Modal.jsx';
-import { useSelector, useDispatch } from 'react-redux';
 import CartItem from './CartItem.jsx';
 import { cartActions } from '../reducers/cartReducer.js';
 import { useNavigate } from 'react-router-dom';
+import { useAppDispatch, useAppSelector } from '../hooks.js';
 
 const Cart = () => {
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const navigate = useNavigate();
-  const { items, totalAmount } = useSelector((state) => state.cart);
+  const { items, totalAmount } = useAppSelector((state) => state.cart);
 
   const showCartHandler = () => {
     dispatch(cartActions.SHOW_CART());

@@ -1,8 +1,12 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import SkeletonLoading from './SkeletonLoading.jsx';
+import SkeletonLoading from './SkeletonLoading';
+import { Item } from '../models/Model';
 
-const Card = ({ product, loading }) => {
+const Card: React.FC<{ product: Item; loading?: boolean }> = ({
+  product,
+  loading,
+}) => {
   return (
     <figure className="w-60 shadow-lg shadow-gray-300 p-2 flex flex-col gap-4 bg-gray-50 rounded last-of-type:justify-self-start">
       {loading ? (

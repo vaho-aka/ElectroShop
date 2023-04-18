@@ -1,20 +1,20 @@
 import React, { useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import { Plus, Minus } from '@phosphor-icons/react';
-import { cartActions } from '../reducers/cartReducer.js';
-import SkeletonLoading from '../components/SkeletonLoading.jsx';
+import { cartActions } from '../reducers/cartReducer';
+import SkeletonLoading from '../components/SkeletonLoading';
 import LoadingSpinner from '../components/LoadingSpinner';
+import { useAppSelector, useAppDispatch } from '../hooks';
 
-const ProductDetailPage = ({ loading }) => {
+const ProductDetailPage: React.FC<{ loading?: boolean }> = ({ loading }) => {
   const { productId } = useParams();
-  const dispatch = useDispatch();
-  const { products } = useSelector((state) => state.products);
+  const dispatch = useAppDispatch();
+  const { products } = useAppSelector((state) => state.products);
   const [itemNumber, setItemNumber] = useState(1);
 
   const [product] = products.filter((product) => product._id === productId);
 
-  const addToCartHandler = (e) => {
+  const addToCartHandler = (e: React.FormEvent) => {
     e.preventDefault();
 
     const item = { ...product, amount: itemNumber };
@@ -32,6 +32,9 @@ const ProductDetailPage = ({ loading }) => {
       setItemNumber((itemNumber) => itemNumber - 1);
     }
   };
+
+  const inputNumberChangeHandler = (e: React.FormEvent<HTMLInputElement>) =>
+    setItemNumber(+e.currentTarget.value);
 
   return (
     <div className="grid lg:grid-cols-2 gap-5 items-stretch">
@@ -102,7 +105,7 @@ const ProductDetailPage = ({ loading }) => {
                   type="number"
                   className="w-10 text-center"
                   value={itemNumber}
-                  onChange={(e) => setItemNumber(e.target.value)}
+                  onChange={inputNumberChangeHandler}
                   min={1}
                   max={product.countInStock}
                 />
