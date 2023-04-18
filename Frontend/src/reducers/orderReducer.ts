@@ -1,5 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { Item } from '../models/Model';
+import { Item } from '../interfaces/interface;
 
 export const order = createSlice({
   name: 'order',

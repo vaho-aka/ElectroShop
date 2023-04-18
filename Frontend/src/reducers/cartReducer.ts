@@ -1,19 +1,5 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { CartItem } from '../models/Model';
-
-interface ShippingAddress {
-  address: string;
-  city: string;
-  neighbour: string;
-  paymentMethod: string;
-}
-
-interface CartState {
-  items: CartItem[];
-  shippingAddress: ShippingAddress;
-  showCart: boolean;
-  totalAmount: number;
-}
+import { CartItem, CartState, ShippingAddress } from '../interface/interfaces';
 
 const initialState: CartState = {
   items: [],
@@ -22,6 +8,7 @@ const initialState: CartState = {
     city: '',
     neighbour: '',
     paymentMethod: '',
+    phoneNumber: '',
   },
   showCart: false,
   totalAmount: 0,

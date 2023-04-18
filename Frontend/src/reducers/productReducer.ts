@@ -1,5 +1,5 @@
 import { PayloadAction, createSlice } from '@reduxjs/toolkit';
-import { Item } from '../models/Model';
+import { Item } from '../interface/interfaces';
 
 const productsData = [
   {

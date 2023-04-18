@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import SkeletonLoading from './SkeletonLoading';
-import { Item } from '../models/Model';
+import { Item } from '../interface/interfaces';
 
 const Card: React.FC<{ product: Item; loading?: boolean }> = ({
   product,
@@ -46,4 +46,4 @@ const Card: React.FC<{ product: Item; loading?: boolean }> = ({
   );
 };
 
-export default Card;
+export default React.memo(Card);

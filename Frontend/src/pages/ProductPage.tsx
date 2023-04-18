@@ -37,12 +37,12 @@ const ProductDetailPage: React.FC<{ loading?: boolean }> = ({ loading }) => {
     setItemNumber(+e.currentTarget.value);
 
   return (
-    <div className="grid lg:grid-cols-2 gap-5 items-stretch">
+    <div className="grid sm:grid-cols-2 gap-5 items-stretch max-w-[400px]  sm:max-w-none">
       <div className="flex justify-center items-center border rounded p-4">
         {loading ? (
           <LoadingSpinner />
         ) : (
-          <div className="md:max-w-[40rem] max-h-[25rem] h-full w-full">
+          <div className="max-w-[20rem] max-h-[12.5rem] lg:max-w-[40rem] lg:max-h-[25rem] h-full w-full">
             <img
               className="object-contain object-center w-full h-full"
               src={product.imageUrl}
@@ -51,7 +51,7 @@ const ProductDetailPage: React.FC<{ loading?: boolean }> = ({ loading }) => {
           </div>
         )}
       </div>
-      <div className="flex flex-col gap-4 border p-4 md:max-w-[40rem] rounded ">
+      <div className="flex flex-col gap-4 border p-4 sm:max-w-none rounded w-full">
         {loading ? (
           <SkeletonLoading count={1} />
         ) : (
