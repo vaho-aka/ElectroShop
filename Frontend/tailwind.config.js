@@ -9,9 +9,14 @@ export default {
           '0%': { opacity: 0, transform: 'translateY(-3rem)' },
           '100%': { opacity: 1, transform: 'translateY(0)' },
         },
+        'slide-up': {
+          '100%': { opacity: 1, transform: 'translateY(0)' },
+          '0%': { opacity: 0, transform: 'translateY(-3rem)' },
+        },
       },
       animation: {
-        'slide-down': 'slide-down 200ms ease-in forwards',
+        'slide-down': 'slide-down 250ms ease-in forwards',
+        'slide-up': 'slide-up 100ms ease forwards',
       },
     },
   },

@@ -9,7 +9,8 @@
     "start": "node Backend/server",
     "server": "nodemon Backend/server",
     "client": "npm run dev --prefix Frontend",
-    "dev": "concurrently \"npm run server\" \"npm run client\""
+    "dev": "concurrently \"npm run server\" \"npm run client\"",
+    "data:import": "node Backend/seeder"
   },
   "author": "vahoaka",
   "license": "ISC",

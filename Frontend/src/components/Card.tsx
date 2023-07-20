@@ -3,12 +3,25 @@ import { Link } from 'react-router-dom';
 import SkeletonLoading from './SkeletonLoading';
 import { Item } from '../interface/interfaces';
 
+/* 
+const anime = {
+  background: 'linear-gradient(90deg, #00b0ff 50%, #ffea00 50%)',
+  transition: 'all 0.4s',
+  backgroundSize: '250%',
+
+  '&:hover': {
+    backgroundPosition: '100%',
+    color: '#202444',
+  },
+};
+*/
+
 const Card: React.FC<{ product: Item; loading?: boolean }> = ({
   product,
   loading,
 }) => {
   return (
-    <figure className="w-60 shadow-lg shadow-gray-300 p-2 flex flex-col gap-4 bg-gray-50 rounded last-of-type:justify-self-start">
+    <figure className="w-60 shadow-lg shadow-gray-300 p-2 flex flex-col gap-4 bg-gray-150 rounded last-of-type:justify-self-start">
       {loading ? (
         <SkeletonLoading height={127} />
       ) : (
@@ -36,7 +49,7 @@ const Card: React.FC<{ product: Item; loading?: boolean }> = ({
         ) : (
           <Link
             to={`/details/${product._id}`}
-            className="py-1 bg-slate-900  text-neutral-200 w-full text-center"
+            className="py-1  text-neutral-200 w-full bg-slate-900 text-center"
           >
             Details
           </Link>

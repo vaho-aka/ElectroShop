@@ -15,7 +15,9 @@ const ModalOverlay: React.FC<{ children: ReactNode; onClose: () => void }> = ({
   return (
     <div className="fixed top-0 left-0 bg-transparent flex items-center justify-center h-full w-full z-20  animate-slide-down">
       <ClickAwayListener onClickAway={onClose}>
-        <div className="p-4 rounded-md bg-white ">{children}</div>
+        <div className="p-4 rounded-md bg-white sm:min-w-[500px]">
+          {children}
+        </div>
       </ClickAwayListener>
     </div>
   );

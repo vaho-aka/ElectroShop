@@ -6,6 +6,7 @@ import colors from 'colors';
 
 import connectDB from './config/db.js';
 import { notFound, errorHandler } from './middleware/errorMiddleware.js';
+import mainRoutes from './routes/mainRoutes.js';
 
 dotenv.config();
 
@@ -21,6 +22,7 @@ app.use(express.static(path.join(__dirname, '/uploads')));
 app.get('/', (req, res) => {
   res.send('Api is running...');
 });
+app.use('/api/v1', mainRoutes);
 
 app.use(notFound);
 app.use(errorHandler);

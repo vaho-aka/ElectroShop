@@ -27,9 +27,10 @@ const ConfirmModal: React.FC<{ onClose: () => void }> = ({ onClose }) => {
   return (
     <Modal onClose={onClose}>
       <div className="w-full text-center mb-4">
-        <h3>
-          Voulez-vous vraiment <span className="text-red-500">Annuler</span>?
-        </h3>
+        <span>
+          Voulez-vous vraiment{' '}
+          <span className="text-red-500">annuler votre commande</span> ?
+        </span>
         <p>Toutes vos données seront effacées</p>
       </div>
       <div className="text-right">
@@ -41,7 +42,7 @@ const ConfirmModal: React.FC<{ onClose: () => void }> = ({ onClose }) => {
         </button>
         <button
           onClick={abortHandler}
-          className="py-1 px-6 bg-red-200 text-red-700 rounded"
+          className="py-1 px-6 bg-red-200 text-red-700 rounded hover:bg-red-300 transition"
         >
           Confirmer
         </button>

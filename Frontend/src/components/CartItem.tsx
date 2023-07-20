@@ -36,7 +36,7 @@ const CartItem: React.FC<{ item: Item }> = ({ item }) => {
       </div>
       <div className="mx-4">
         <h3>{item.name}</h3>
-        <h6>{item.price} Ar</h6>
+        <span>{item.price} Ar</span>
       </div>
       <div className="flex flex-col sm:flex-row items-center gap-5 p-4 max-w-fit ml-auto">
         <button className="bg-gray-400 rounded" onClick={descreaseItemNumber}>
