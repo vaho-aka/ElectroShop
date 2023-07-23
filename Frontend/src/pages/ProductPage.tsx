@@ -1,18 +1,23 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { Plus, Minus } from '@phosphor-icons/react';
 import { cartActions } from '../reducers/cartReducer';
 import SkeletonLoading from '../components/SkeletonLoading';
 import LoadingSpinner from '../components/LoadingSpinner';
 import { useAppSelector, useAppDispatch } from '../hooks';
+import { getProductById } from '../actions/productActions';
 
 const ProductDetailPage: React.FC<{ loading?: boolean }> = ({ loading }) => {
   const { productId } = useParams();
   const dispatch = useAppDispatch();
-  const { products } = useAppSelector((state) => state.products);
+  const { product } = useAppSelector((state) => state.products);
   const [itemNumber, setItemNumber] = useState(1);
 
-  const [product] = products.filter((product) => product._id === productId);
+  // const [product] = products.filter((product) => product._id === productId);
+
+  useEffect(() => {
+    dispatch(getProductById(productId));
+  }, [productId]);
 
   const addToCartHandler = (e: React.FormEvent) => {
     e.preventDefault();

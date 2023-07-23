@@ -1,8 +1,11 @@
 import React, { useState } from 'react';
 import { Crown, EyeSlash, Eye } from '@phosphor-icons/react';
 import { Link } from 'react-router-dom';
+import { useAppDispatch } from '../hooks';
+import { login } from '../actions/userActions';
 
 const SignPage = () => {
+  const dispatch = useAppDispatch();
   const [showPassword, setShowPassword] = useState(false);
   const [password, setPassword] = useState('');
   const [email, setEmail] = useState('');
@@ -10,7 +13,8 @@ const SignPage = () => {
   const submitHandler = (e: React.FormEvent) => {
     e.preventDefault();
 
-    console.log('signing...');
+    // console.log('signing...');
+    dispatch(login(email, password));
   };
 
   const showPasswordHandler = () => {

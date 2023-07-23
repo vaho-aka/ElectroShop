@@ -2,6 +2,7 @@ import asyncHandler from 'express-async-handler';
 
 import generateToken from '../utils/generateToken.js';
 import User from '../models/userSchema.js';
+import { sendCookie } from '../utils/sendCookie.js';
 
 // ** @desc Auth user & get token
 // ** @route POST /api/v1/user/login
@@ -18,6 +19,7 @@ export const logIn = asyncHandler(async (req, res) => {
 
   const token = generateToken(user._id);
 
+  sendCookie(user, res);
   res.json({
     _id: user._id,
     name: user.name,
@@ -52,6 +54,7 @@ export const signUp = asyncHandler(async (req, res) => {
     throw new Error('Information non valide');
   }
 
+  sendCookie(newUser, res);
   res.status(201).send({
     _id: newUser._id,
     name: newUser.name,

@@ -1,3 +1,12 @@
+export interface User {
+  _id: string;
+  name: string;
+  email: string;
+  isAdmin: boolean;
+  profilePicture: string;
+  token: string;
+}
+
 export interface Item {
   _id: string;
   name: string;
@@ -35,4 +44,13 @@ export interface State {
 
 export interface OrderState extends State {
   orderDetails: CartItem | any;
+}
+
+export interface ProductState extends State {
+  products: Array<Item>;
+  product: Item;
+}
+
+export interface UserState extends State {
+  userLoggedIn: User;
 }

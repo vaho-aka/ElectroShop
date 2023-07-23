@@ -5,11 +5,13 @@ import { UnknownAction } from 'redux';
 // * @Reducers
 import productReducer from './reducers/productReducer.js';
 import cartReducer from './reducers/cartReducer.js';
+import userReducer from './reducers/userReducer.js';
 
 const store = configureStore({
   reducer: {
     products: productReducer,
     cart: cartReducer,
+    user: userReducer,
   },
   middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(thunk),
   devTools: true,
