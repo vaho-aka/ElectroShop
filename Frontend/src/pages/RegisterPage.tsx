@@ -90,7 +90,7 @@ const RegisterPage = () => {
         <span>Déjà membre ?</span>
         <Link
           className="ml-2 hover:underline hover:text-emerald-600 transition-all"
-          to="/sign"
+          to="/login"
         >
           Se connecter →
         </Link>

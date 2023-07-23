@@ -1,15 +1,19 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { User, UserState } from '../interface/interfaces';
 
+const userInfoFromStorage: User = localStorage.getItem('electroshop-user-info')
+  ? JSON.parse(localStorage.getItem('electroshop-user-info') || '')
+  : {
+      _id: '',
+      name: '',
+      email: '',
+      isAdmin: false,
+      profilePicture: '',
+      token: '',
+    };
+
 const initialState: UserState = {
-  userLoggedIn: {
-    _id: '',
-    name: '',
-    email: '',
-    isAdmin: false,
-    profilePicture: '',
-    token: '',
-  },
+  userLoggedIn: userInfoFromStorage,
   loading: false,
   error: '',
 };
@@ -29,6 +33,19 @@ const userReducer = createSlice({
     GET_USER_FAIL(state, action: PayloadAction<string>) {
       state.loading = false;
       state.error = action.payload;
+    },
+    USER_LOG_OUT(state) {
+      state.loading = false;
+      state.userLoggedIn = {
+        _id: '',
+        name: '',
+        email: '',
+        isAdmin: false,
+        profilePicture: '',
+        token: '',
+      };
+
+      localStorage.removeItem('electroshop-user-info');
     },
   },
 });

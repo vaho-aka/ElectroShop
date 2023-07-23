@@ -4,6 +4,7 @@ const router = express.Router();
 import { protect, admin } from '../middleware/authMiddleware.js';
 import {
   logIn,
+  logOut,
   signUp,
   getUserProfile,
   updateUserProfile,
@@ -20,6 +21,7 @@ router
 
 router.post('/login', logIn);
 router.post('/signup', signUp);
+router.get('/logout', logOut);
 router.get('/', protect, admin, getUsers);
 
 router

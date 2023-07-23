@@ -1,76 +1,86 @@
-import React, { useState } from 'react';
-
-import { Menu, MenuItem, IconButton } from '@mui/material';
+import React, { Fragment, useState } from 'react';
+import { Menu, Transition } from '@headlessui/react';
 
 import { Link } from 'react-router-dom';
-import { List } from '@phosphor-icons/react';
-
-const paperProps = {
-  elevation: 0,
-  sx: {
-    bgcolor: '#059669',
-    overflow: 'visible',
-    color: '#0f172a',
-    filter: 'drop-shadow(0px 2px 8px rgba(0,0,0,0.32))',
-    '& li': {
-      p: 0,
-    },
-    '& ul': {
-      py: 0,
-    },
-    '&:before': {
-      content: '""',
-      display: 'block',
-      position: 'absolute',
-      top: 0,
-      right: 15,
-      width: 10,
-      height: 10,
-      bgcolor: '#059669',
-      transform: 'translateY(-50%) rotate(45deg)',
-      zIndex: 0,
-    },
-  },
-};
+import { useAppDispatch, useAppSelector } from '../hooks';
+import MenuIcon from './Icons/MenuIcon';
+import { logout } from '../actions/userActions';
 
 const MenuAccount = () => {
-  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
-  const open = Boolean(anchorEl);
+  const dispatch = useAppDispatch();
+  const { userLoggedIn } = useAppSelector((state) => state.user);
 
-  const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
-    setAnchorEl(event.currentTarget);
-  };
-  const handleClose = () => {
-    setAnchorEl(null);
+  const logoutHandler = () => {
+    dispatch(logout());
   };
 
   return (
-    <>
-      <IconButton sx={{ p: 0 }} onClick={handleClick}>
-        <List color="#f3f4f6" size={32} />
-      </IconButton>
-      <Menu
-        anchorEl={anchorEl}
-        id="account-menu"
-        open={open}
-        onClose={handleClose}
-        onClick={handleClose}
-        PaperProps={paperProps}
-        transformOrigin={{ horizontal: 'right', vertical: 'top' }}
-        anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
+    <Menu as="div" className="relative inline-block text-left">
+      <Menu.Button className="inline-flex justify-center w-full text-sm font-medium text-gray-100 rounded-md">
+        <MenuIcon />
+      </Menu.Button>
+      <Transition
+        as={Fragment}
+        enter="transition duration-100 ease-out"
+        enterFrom="transform scale-95 opacity-0"
+        enterTo="transform scale-100 opacity-100"
+        leave="transition duration-75 ease-out"
+        leaveFrom="transform scale-100 opacity-100"
+        leaveTo="transform scale-95 opacity-0"
       >
-        <MenuItem>
-          <Link to="/sign" className="py-2 px-4 text-gray-100">
-            Se connecter
-          </Link>
-        </MenuItem>
-        <MenuItem>
-          <Link to="/register" className="py-2 px-4 text-gray-100">
-            S'inscrire
-          </Link>
-        </MenuItem>
-      </Menu>
-    </>
+        <Menu.Items className="absolute right-0 w-56 mt-2 origin-top-right bg-slate-700 rounded-md shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none flex flex-col">
+          {!userLoggedIn ? (
+            <>
+              <Menu.Item>
+                <Link
+                  to="/login"
+                  className="py-2 px-4  hover:bg-slate-600 rounded-md"
+                >
+                  Se connecter
+                </Link>
+              </Menu.Item>
+              <Menu.Item>
+                <Link
+                  to="/register"
+                  className="py-2 px-4 hover:bg-slate-600 rounded-md"
+                >
+                  S'inscrire
+                </Link>
+              </Menu.Item>
+            </>
+          ) : (
+            <>
+              <Menu.Item>
+                <Link
+                  to={`/user/${userLoggedIn._id}`}
+                  className="hover:bg-slate-600 rounded-md py-2 px-4 "
+                >
+                  Mon profile
+                </Link>
+              </Menu.Item>
+              {userLoggedIn.isAdmin && (
+                <Menu.Item>
+                  <Link
+                    to="/admin"
+                    className="hover:bg-slate-600 rounded-md py-2 px-4 "
+                  >
+                    Administration
+                  </Link>
+                </Menu.Item>
+              )}
+              <Menu.Item>
+                <span
+                  onClick={logoutHandler}
+                  className="hover:bg-slate-600 rounded-md py-2 px-4  cursor-pointer"
+                >
+                  Déconnexion
+                </span>
+              </Menu.Item>
+            </>
+          )}
+        </Menu.Items>
+      </Transition>
+    </Menu>
   );
 };
 

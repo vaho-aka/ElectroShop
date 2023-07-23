@@ -35,7 +35,7 @@ app.use(cors({ origin: 'http://localhost:5173/' }));
 // Body parser, reading data from body into req.body
 app.use(express.json());
 
-// Data sanitization against NoSQL query injection
+// Data sanitization against NoSQL query injection, needs to be after the Body parser
 app.use(mongoSanitize());
 
 // Serving static files

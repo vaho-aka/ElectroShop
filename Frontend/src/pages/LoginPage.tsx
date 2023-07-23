@@ -1,20 +1,32 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Crown, EyeSlash, Eye } from '@phosphor-icons/react';
-import { Link } from 'react-router-dom';
-import { useAppDispatch } from '../hooks';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { useAppDispatch, useAppSelector } from '../hooks';
 import { login } from '../actions/userActions';
+import ErrorWarningIcon from '../components/Icons/ErrorWarningIcon';
 
-const SignPage = () => {
+const LoginPage = () => {
+  const { search } = useLocation();
+  const navigate = useNavigate();
   const dispatch = useAppDispatch();
+  const { userLoggedIn } = useAppSelector((state) => state.user);
   const [showPassword, setShowPassword] = useState(false);
   const [password, setPassword] = useState('');
   const [email, setEmail] = useState('');
+  const [validEmail, setValidEmail] = useState(true);
+
+  const redirect = search ? search.split('=')[1] : '/';
+
+  useEffect(() => {
+    if (userLoggedIn.name) navigate(redirect);
+  }, [userLoggedIn]);
 
   const submitHandler = (e: React.FormEvent) => {
     e.preventDefault();
+    const pattern = /[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/g;
 
-    // console.log('signing...');
-    dispatch(login(email, password));
+    setValidEmail(email.match(pattern) ? true : false);
+    if (email.match(pattern)) dispatch(login(email, password));
   };
 
   const showPasswordHandler = () => {
@@ -42,6 +54,14 @@ const SignPage = () => {
             }
             className="border p-2 focus:outline-none rounded h-12"
           />
+          {!validEmail && (
+            <div className="flex gap-2 items-center">
+              <ErrorWarningIcon />
+              <span className="text-red-500 font-semibold">
+                Votre adresse email est invalide
+              </span>
+            </div>
+          )}
         </div>
         <div className="flex flex-col gap-2 mb-2">
           <label htmlFor="password">Mot de passe</label>
@@ -52,9 +72,10 @@ const SignPage = () => {
               }
               required
               id="password"
+              minLength={6}
               placeholder="votre mot de passe"
               type={!showPassword ? 'password' : 'text'}
-              className="focus:outline-none w-full"
+              className="focus:outline-none w-full "
             />
             {password && (
               <div className="hidden sm:block" onClick={showPasswordHandler}>
@@ -80,7 +101,7 @@ const SignPage = () => {
         </button>
       </form>
       <Link
-        to="/register"
+        to={search ? `/register${search}` : '/register'}
         className="w-full text-center py-2 bg-emerald-600  text-neutral-200"
       >
         S'incrire
@@ -89,4 +110,4 @@ const SignPage = () => {
   );
 };
 
-export default SignPage;
+export default LoginPage;

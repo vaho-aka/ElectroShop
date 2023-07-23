@@ -1,16 +1,18 @@
 import { Link } from 'react-router-dom';
-import { ShoppingCartSimple } from '@phosphor-icons/react';
+// import { ShoppingCartSimple } from '@phosphor-icons/react';
 import { cartActions } from '../reducers/cartReducer.js';
 import MenuAccount from './MenuAccount.jsx';
 import { useAppDispatch, useAppSelector } from '../hooks.js';
 import { useLocation } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import NavigationLink from './NavigationLink.js';
+import CartIcon from './Icons/CartIcon.js';
 
 const MainNaviagation = () => {
   const dispatch = useAppDispatch();
   const { pathname } = useLocation();
   const { items } = useAppSelector((state) => state.cart);
+  const { userLoggedIn } = useAppSelector((state) => state.user);
   const [showNavLink, setShowNavLink] = useState(true);
 
   useEffect(() => {
@@ -19,7 +21,8 @@ const MainNaviagation = () => {
         ? false
         : true
     );
-  }, [pathname]);
+    setShowNavLink(userLoggedIn.name ? false : true);
+  }, [pathname, userLoggedIn]);
 
   const showCartHandler = () => {
     dispatch(cartActions.SHOW_CART());
@@ -34,13 +37,14 @@ const MainNaviagation = () => {
         <div className="flex items-center gap-5">
           <div className="relative">
             <button onClick={showCartHandler}>
-              <ShoppingCartSimple size={32} />
+              <CartIcon />
               <div className="absolute inline-flex items-center justify-center w-6 h-6 text-xs bg-emerald-600 rounded-full -top-2 -right-2 dark:border-gray-900">
                 {items.length}
               </div>
             </button>
           </div>
           {showNavLink && <NavigationLink />}
+          {userLoggedIn.name && <MenuAccount />}
           <div className="block sm:hidden sm:w-0 sm:h-0">
             <MenuAccount />
           </div>

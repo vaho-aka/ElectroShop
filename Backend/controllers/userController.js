@@ -30,6 +30,18 @@ export const logIn = asyncHandler(async (req, res) => {
   });
 });
 
+// ** @desc Log out user
+// ** @route POST /api/v1/user/logout
+// ** @access Private
+export const logOut = asyncHandler(async (req, res) => {
+  res.cookie('jwt', null, {
+    expires: new Date(Date.now()),
+    httpOnly: true,
+  });
+
+  res.json({ succes: true });
+});
+
 // ** @desc   Register a new user
 // ** @route  POST /api/users
 // ** @access Public

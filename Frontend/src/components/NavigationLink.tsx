@@ -14,7 +14,7 @@ const NavigationLink = () => {
       </li>
       <li>
         <Link
-          to="/sign"
+          to="/login"
           className="py-1 px-6 hover:bg-emerald-600 rounded border-2 border-emerald-600 text-emerald-600 hover:text-white transition-all"
         >
           Connecter

@@ -1,11 +1,14 @@
 import React, { ReactNode, useEffect } from 'react';
 import { NavLink, useLocation, useNavigate } from 'react-router-dom';
 import { Check } from '@phosphor-icons/react';
-import { useAppSelector } from '../hooks';
+import { useAppDispatch, useAppSelector } from '../hooks';
+import { ShippingAddress } from '../interface/interfaces';
+import { cartActions } from '../reducers/cartReducer';
 
 const Stepper: React.FC<{ children: ReactNode }> = ({ children }) => {
   const { pathname } = useLocation();
   const navigate = useNavigate();
+  const dispatch = useAppDispatch();
 
   const { shippingAddress, items } = useAppSelector((state) => state.cart);
 
@@ -17,6 +20,18 @@ const Stepper: React.FC<{ children: ReactNode }> = ({ children }) => {
     if (pathname === '/placeorder' && !shippingAddress.address)
       navigate('/shipping');
   }, [pathname, shippingAddress]);
+
+  const resetShippingAdressHandler = () => {
+    const shippingAdress: ShippingAddress = {
+      address: '',
+      city: '',
+      neighbour: '',
+      paymentMethod: '',
+      phoneNumber: '',
+    };
+
+    dispatch(cartActions.ADD_SHIPPING_ADDRESS(shippingAddress));
+  };
 
   return (
     <div className="w-full sm:min-w-[440px] max-w-[500px]">
@@ -31,6 +46,7 @@ const Stepper: React.FC<{ children: ReactNode }> = ({ children }) => {
             }
           >
             <span
+              onClick={resetShippingAdressHandler}
               className={`flex items-center justify-center w-8 h-8 border border-emerald-600 ${
                 shippingAddress.address && 'bg-emerald-600'
               } rounded-full shrink-0 dark:border-blue-500`}
@@ -63,7 +79,7 @@ const Stepper: React.FC<{ children: ReactNode }> = ({ children }) => {
                   : 'border-gray-600'
               } rounded-full shrink-0 dark:border-blue-500`}
             >
-              3
+              2
             </span>
             <span>Passer mes commandes</span>
           </NavLink>

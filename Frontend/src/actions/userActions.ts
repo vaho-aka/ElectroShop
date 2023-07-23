@@ -24,6 +24,7 @@ export const login =
         config
       );
       dispatch(userActions.GET_USER_SUCCESS(data));
+      localStorage.setItem('electroshop-user-info', JSON.stringify(data));
     } catch (error: any) {
       const message =
         error.response && error.response.data.message
@@ -33,3 +34,19 @@ export const login =
       dispatch(userActions.GET_USER_FAIL(message));
     }
   };
+
+export const logout = (): AppThunk => async (dispatch) => {
+  try {
+    dispatch(userActions.GET_USER_REQUEST());
+
+    await axios.get('/api/v1/user/logout');
+    dispatch(userActions.USER_LOG_OUT());
+  } catch (error: any) {
+    const message =
+      error.response && error.response.data.message
+        ? error.response.data.message
+        : error.message;
+
+    dispatch(userActions.GET_USER_FAIL(message));
+  }
+};

@@ -2,10 +2,11 @@ import { Suspense, lazy } from 'react';
 import { Routes as Router, Route } from 'react-router-dom';
 
 import LoadingSpinner from '../components/LoadingSpinner';
+import PrivateRoutes from './PrivateRoutes';
 
 const HomePage = lazy(() => import('../pages/HomePage'));
 const ProductPage = lazy(() => import('../pages/ProductPage'));
-const SignPage = lazy(() => import('../pages/SignPage'));
+const SignPage = lazy(() => import('../pages/LoginPage'));
 const RegisterPage = lazy(() => import('../pages/RegisterPage'));
 const ShippingPage = lazy(() => import('../pages/ShippingPage'));
 const PlaceOrderPage = lazy(() => import('../pages/PlaceOrderPage'));
@@ -16,10 +17,24 @@ const Routes = () => {
       <Router>
         <Route path="/" element={<HomePage />} />
         <Route path="/details/:productId" element={<ProductPage />} />
-        <Route path="/sign" element={<SignPage />} />
+        <Route path="/login" element={<SignPage />} />
         <Route path="/register" element={<RegisterPage />} />
-        <Route path="/shipping" element={<ShippingPage />} />
-        <Route path="/placeorder" element={<PlaceOrderPage />} />
+        <Route
+          path="/shipping"
+          element={
+            <PrivateRoutes>
+              <ShippingPage />
+            </PrivateRoutes>
+          }
+        />
+        <Route
+          path="/placeorder"
+          element={
+            <PrivateRoutes>
+              <PlaceOrderPage />
+            </PrivateRoutes>
+          }
+        />
       </Router>
     </Suspense>
   );

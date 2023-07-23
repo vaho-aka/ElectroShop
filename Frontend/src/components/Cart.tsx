@@ -8,13 +8,18 @@ const Cart = () => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const { items, totalAmount } = useAppSelector((state) => state.cart);
+  const { userLoggedIn } = useAppSelector((state) => state.user);
 
   const showCartHandler = () => {
     dispatch(cartActions.SHOW_CART());
   };
 
   const clickHandler = () => {
-    navigate('/shipping');
+    const redirect = !userLoggedIn.name
+      ? '/login?redirect=/shipping'
+      : '/shipping';
+
+    navigate(redirect);
     dispatch(cartActions.SHOW_CART());
   };
 

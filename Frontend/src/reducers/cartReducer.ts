@@ -46,6 +46,7 @@ const cartReducer = createSlice({
         state.totalAmount = state.totalAmount + price * amount;
         state.items[itemIndex] = updateItem;
       }
+      localStorage.setItem('electroshop-products', JSON.stringify(state.items));
     },
     REMOVE_ITEM(state, action: PayloadAction<string>) {
       const itemIndex = state.items.findIndex(
@@ -75,6 +76,9 @@ const cartReducer = createSlice({
 
         state.items = updatedItems;
       }
+
+      if (state.items.length <= 0)
+        localStorage.removeItem('electroshop-products');
     },
     SHOW_CART(state) {
       state.showCart = !state.showCart;
