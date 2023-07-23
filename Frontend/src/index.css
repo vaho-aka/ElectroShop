@@ -74,3 +74,14 @@ input[type='number'] {
   min-height: calc(100vh - 151px);
   height: 100%;
 }
+
+.anime {
+  background: linear-gradient(90deg, #0f172a 50%, #fafafa 50%);
+  transition: all 0.4s;
+  background-size: 200%;
+}
+
+.anime:hover {
+  background-position: -100%;
+  color: #fafafa;
+}

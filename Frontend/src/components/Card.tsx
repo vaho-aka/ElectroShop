@@ -3,19 +3,6 @@ import { Link } from 'react-router-dom';
 import SkeletonLoading from './SkeletonLoading';
 import { Item } from '../interface/interfaces';
 
-/* 
-const anime = {
-  background: 'linear-gradient(90deg, #00b0ff 50%, #ffea00 50%)',
-  transition: 'all 0.4s',
-  backgroundSize: '250%',
-
-  '&:hover': {
-    backgroundPosition: '100%',
-    color: '#202444',
-  },
-};
-*/
-
 const Card: React.FC<{ product: Item; loading?: boolean }> = ({
   product,
   loading,
@@ -49,7 +36,7 @@ const Card: React.FC<{ product: Item; loading?: boolean }> = ({
         ) : (
           <Link
             to={`/details/${product._id}`}
-            className="py-1  text-neutral-200 w-full bg-slate-900 text-center"
+            className="py-1  text-neutral-200 w-full anime hover:text-slate-900 border-y-2 border-slate-900 text-center"
           >
             Details
           </Link>

@@ -31,15 +31,20 @@ const cartReducer = createSlice({
         state.totalAmount = state.totalAmount + price * action.payload.amount;
         state.items = [...state.items, action.payload];
       } else {
+        const amountFree = existItem.countInStock - existItem.amount;
+
+        const amount =
+          existItem.countInStock >= existItem.amount + action.payload.amount
+            ? existItem.amount + action.payload.amount
+            : existItem.amount + amountFree;
+
         const updateItem = {
           ...action.payload,
-          amount: existItem.amount + action.payload.amount,
+          amount,
         };
 
-        if (updateItem.amount <= updateItem.countInStock) {
-          state.totalAmount = state.totalAmount + price * action.payload.amount;
-          state.items[itemIndex] = updateItem;
-        }
+        state.totalAmount = state.totalAmount + price * amount;
+        state.items[itemIndex] = updateItem;
       }
     },
     REMOVE_ITEM(state, action: PayloadAction<string>) {

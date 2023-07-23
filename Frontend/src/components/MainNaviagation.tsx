@@ -3,10 +3,23 @@ import { ShoppingCartSimple } from '@phosphor-icons/react';
 import { cartActions } from '../reducers/cartReducer.js';
 import MenuAccount from './MenuAccount.jsx';
 import { useAppDispatch, useAppSelector } from '../hooks.js';
+import { useLocation } from 'react-router-dom';
+import { useEffect, useState } from 'react';
+import NavigationLink from './NavigationLink.js';
 
 const MainNaviagation = () => {
   const dispatch = useAppDispatch();
+  const { pathname } = useLocation();
   const { items } = useAppSelector((state) => state.cart);
+  const [showNavLink, setShowNavLink] = useState(true);
+
+  useEffect(() => {
+    setShowNavLink(
+      pathname.includes('/sign') || pathname.includes('/register')
+        ? false
+        : true
+    );
+  }, [pathname]);
 
   const showCartHandler = () => {
     dispatch(cartActions.SHOW_CART());
@@ -27,18 +40,7 @@ const MainNaviagation = () => {
               </div>
             </button>
           </div>
-          <ul className="hidden w-0 h-0 sm:flex sm:w-fit sm:h-fit items-center gap-5">
-            <li>
-              <Link to="/register" className="py-1 px-6">
-                S'incrire
-              </Link>
-            </li>
-            <li>
-              <Link to="/sign" className="py-1 px-6 bg-emerald-600 rounded">
-                Connecter
-              </Link>
-            </li>
-          </ul>
+          {showNavLink && <NavigationLink />}
           <div className="block sm:hidden sm:w-0 sm:h-0">
             <MenuAccount />
           </div>

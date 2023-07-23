@@ -19,7 +19,7 @@ const RegisterPage = () => {
   };
 
   return (
-    <div className="sm:min-w-[400px] w-full flex flex-col gap-4 py-4 border p-4 rounded-md">
+    <div className="sm:min-w-[400px] w-full flex flex-col gap-4 py-4 border p-4 rounded-md my-10">
       <div className="w-full text-center my-4">
         <h2 className="text-3xl">Inscription</h2>
       </div>

@@ -75,7 +75,7 @@ interface ProductState {
 }
 
 const initialState: ProductState = {
-  products: productsData,
+  products: [],
   loading: false,
   error: '',
 };

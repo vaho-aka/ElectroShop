@@ -3,8 +3,8 @@ const router = express.Router();
 
 import { protect, admin } from '../middleware/authMiddleware.js';
 import {
-  authUser,
-  registerUser,
+  logIn,
+  signUp,
   getUserProfile,
   updateUserProfile,
   getUsers,
@@ -18,9 +18,9 @@ router
   .get(protect, getUserProfile)
   .put(protect, updateUserProfile);
 
-router.post('/auth', authUser);
-
-router.route('/').post(registerUser).get(protect, admin, getUsers);
+router.post('/login', logIn);
+router.post('/signup', signUp);
+router.get('/', protect, admin, getUsers);
 
 router
   .route('/:id')

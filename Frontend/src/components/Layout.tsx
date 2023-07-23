@@ -1,4 +1,4 @@
-import React, { ReactNode, useEffect, useState } from 'react';
+import React, { ReactNode, useEffect } from 'react';
 import MainNaviagation from './MainNaviagation.jsx';
 import Cart from './Cart.jsx';
 import Footer from './Footer';

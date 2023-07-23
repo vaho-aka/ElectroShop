@@ -19,6 +19,7 @@ const ProductDetailPage: React.FC<{ loading?: boolean }> = ({ loading }) => {
 
     const item = { ...product, amount: itemNumber };
     dispatch(cartActions.ADD_ITEM(item));
+    setItemNumber(1);
   };
 
   const inscreaseItemNumber = () => {
@@ -118,7 +119,7 @@ const ProductDetailPage: React.FC<{ loading?: boolean }> = ({ loading }) => {
               </div>
             </div>
             <button
-              className="w-full py-4 bg-slate-900  text-neutral-200 mt-4"
+              className="w-full py-4 bg-slate-900  text-neutral-200 mt-4 active:translate-y-1  shadow-lg shadow-gray-300 active:shadow-none transition-all"
               type="submit"
             >
               Ajouter au panier

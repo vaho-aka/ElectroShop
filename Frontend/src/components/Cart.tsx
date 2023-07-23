@@ -32,7 +32,7 @@ const Cart = () => {
       <div className="flex items-center justify-end gap-5">
         <button
           onClick={showCartHandler}
-          className="py-1 px-6 bg-gray-200 text-gray-700 rounded"
+          className="py-1 px-6 bg-gray-200 text-gray-700 rounded "
         >
           Fermer
         </button>

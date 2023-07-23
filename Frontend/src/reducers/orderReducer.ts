@@ -1,13 +1,15 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { Item } from '../interfaces/interface;
+import { CartItem, OrderState } from '../interface/interfaces';
+
+const initialState: OrderState = {
+  orderDetails: {},
+  loading: false,
+  error: '',
+};
 
 export const order = createSlice({
   name: 'order',
-  initialState: {
-    orderDetails: Item,
-    loading: false,
-    error: '',
-  },
+  initialState,
   reducers: {
     GET_ORDER_DETAILS_REQUEST(state) {
       state.loading = true;

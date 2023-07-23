@@ -1,9 +1,16 @@
+import { useEffect } from 'react';
 import Card from '../components/Card';
 import Carousel from '../components/Carousel';
-import { useAppSelector } from '../hooks';
+import { useAppDispatch, useAppSelector } from '../hooks';
+import { getProducts } from '../actions/productActions';
 
 const HomePage = () => {
   const { products } = useAppSelector((state) => state.products);
+  const dispatch = useAppDispatch();
+
+  useEffect(() => {
+    dispatch(getProducts());
+  }, []);
 
   return (
     <>

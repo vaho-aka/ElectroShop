@@ -18,7 +18,7 @@ const SignPage = () => {
   };
 
   return (
-    <div className="sm:min-w-[400px] w-full flex flex-col border p-4 rounded-md">
+    <div className="sm:min-w-[400px] w-full flex flex-col border p-4 rounded-md my-10">
       <div className="w-full flex flex-col items-center">
         <div className="flex justify-center items-center h-20 w-20 rounded-full ring-2 ring-emerald-600 text-emerald-600">
           <Crown size={50} />

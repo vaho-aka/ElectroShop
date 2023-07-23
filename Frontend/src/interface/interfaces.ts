@@ -27,3 +27,12 @@ export interface CartState {
   showCart: boolean;
   totalAmount: number;
 }
+
+export interface State {
+  loading: boolean;
+  error: string;
+}
+
+export interface OrderState extends State {
+  orderDetails: CartItem | any;
+}
