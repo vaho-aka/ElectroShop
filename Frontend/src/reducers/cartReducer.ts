@@ -1,5 +1,9 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { CartItem, CartState, ShippingAddress } from '../interface/interfaces';
+import {
+  CartItem,
+  CartState,
+  ShippingAddressType,
+} from '../interface/interfaces';
 
 const initialState: CartState = {
   items: [],
@@ -83,7 +87,7 @@ const cartReducer = createSlice({
     SHOW_CART(state) {
       state.showCart = !state.showCart;
     },
-    ADD_SHIPPING_ADDRESS(state, action: PayloadAction<ShippingAddress>) {
+    ADD_SHIPPING_ADDRESS(state, action: PayloadAction<ShippingAddressType>) {
       state.shippingAddress = action.payload;
     },
   },

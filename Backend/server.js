@@ -28,7 +28,7 @@ const limiter = rateLimit({
   message: 'Too many requests from this IP, please try again in an hour!',
 });
 
-app.use('/api', limiter);
+app.use('/', limiter);
 
 app.use(cors({ origin: 'http://localhost:5173/' }));
 
@@ -40,7 +40,7 @@ app.use(mongoSanitize());
 
 // Serving static files
 const __dirname = path.resolve();
-app.use(express.static(path.join(__dirname, '/uploads')));
+app.use('/uploads', express.static(path.join(__dirname, '/uploads')));
 
 // Routes
 app.get('/', (req, res) => {

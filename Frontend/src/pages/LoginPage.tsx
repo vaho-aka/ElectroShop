@@ -3,7 +3,8 @@ import { Crown, EyeSlash, Eye } from '@phosphor-icons/react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '../hooks';
 import { login } from '../actions/userActions';
-import ErrorWarningIcon from '../components/Icons/ErrorWarningIcon';
+// import ErrorWarningIcon from '../components/Icons/ErrorWarningIcon';
+import { RiErrorWarningLine } from 'react-icons/ri';
 
 const LoginPage = () => {
   const { search } = useLocation();
@@ -55,9 +56,9 @@ const LoginPage = () => {
             className="border p-2 focus:outline-none rounded h-12"
           />
           {!validEmail && (
-            <div className="flex gap-2 items-center">
-              <ErrorWarningIcon />
-              <span className="text-red-500 font-semibold">
+            <div className="flex gap-2 items-center text-red-500">
+              <RiErrorWarningLine size={20} />
+              <span className="font-semibold">
                 Votre adresse email est invalide
               </span>
             </div>

@@ -2,7 +2,7 @@ import React, { ReactNode, useEffect } from 'react';
 import { NavLink, useLocation, useNavigate } from 'react-router-dom';
 import { Check } from '@phosphor-icons/react';
 import { useAppDispatch, useAppSelector } from '../hooks';
-import { ShippingAddress } from '../interface/interfaces';
+import { ShippingAddressType } from '../interface/interfaces';
 import { cartActions } from '../reducers/cartReducer';
 
 const Stepper: React.FC<{ children: ReactNode }> = ({ children }) => {
@@ -22,7 +22,7 @@ const Stepper: React.FC<{ children: ReactNode }> = ({ children }) => {
   }, [pathname, shippingAddress]);
 
   const resetShippingAdressHandler = () => {
-    const shippingAdress: ShippingAddress = {
+    const shippingAdress: ShippingAddressType = {
       address: '',
       city: '',
       neighbour: '',
@@ -30,13 +30,13 @@ const Stepper: React.FC<{ children: ReactNode }> = ({ children }) => {
       phoneNumber: '',
     };
 
-    dispatch(cartActions.ADD_SHIPPING_ADDRESS(shippingAddress));
+    dispatch(cartActions.ADD_SHIPPING_ADDRESS(shippingAdress));
   };
 
   return (
     <div className="w-full sm:min-w-[440px] max-w-[500px]">
       <ul className="flex items-center justify-around relative">
-        <li>
+        <li onClick={resetShippingAdressHandler}>
           <NavLink
             to="/shipping"
             className={({ isActive }) =>
@@ -46,7 +46,6 @@ const Stepper: React.FC<{ children: ReactNode }> = ({ children }) => {
             }
           >
             <span
-              onClick={resetShippingAdressHandler}
               className={`flex items-center justify-center w-8 h-8 border border-emerald-600 ${
                 shippingAddress.address && 'bg-emerald-600'
               } rounded-full shrink-0 dark:border-blue-500`}
@@ -56,7 +55,7 @@ const Stepper: React.FC<{ children: ReactNode }> = ({ children }) => {
             <span
               className={`${shippingAddress.address && 'text-emerald-600'}`}
             >
-              Adresse d'expédition
+              Adresse de livraison
             </span>
           </NavLink>
         </li>

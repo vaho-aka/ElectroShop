@@ -1,10 +1,10 @@
-import React, { Fragment, useState } from 'react';
+import React, { Fragment } from 'react';
 import { Menu, Transition } from '@headlessui/react';
 
 import { Link } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '../hooks';
-import MenuIcon from './Icons/MenuIcon';
 import { logout } from '../actions/userActions';
+import { RiMenuLine } from 'react-icons/ri';
 
 const MenuAccount = () => {
   const dispatch = useAppDispatch();
@@ -15,9 +15,9 @@ const MenuAccount = () => {
   };
 
   return (
-    <Menu as="div" className="relative inline-block text-left">
-      <Menu.Button className="inline-flex justify-center w-full text-sm font-medium text-gray-100 rounded-md">
-        <MenuIcon />
+    <Menu as="div" className="relative z-50 inline-block text-left">
+      <Menu.Button className="inline-flex w-full justify-center bg-opacity-20 text-sm font-medium text-white">
+        <RiMenuLine size={30} />
       </Menu.Button>
       <Transition
         as={Fragment}
@@ -28,7 +28,7 @@ const MenuAccount = () => {
         leaveFrom="transform scale-100 opacity-100"
         leaveTo="transform scale-95 opacity-0"
       >
-        <Menu.Items className="absolute right-0 w-56 mt-2 origin-top-right bg-slate-700 rounded-md shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none flex flex-col">
+        <Menu.Items className="absolute right-0 w-56 mt-2 origin-top-right bg-slate-700 rounded-md shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none flex flex-col p-1">
           {!userLoggedIn ? (
             <>
               <Menu.Item>

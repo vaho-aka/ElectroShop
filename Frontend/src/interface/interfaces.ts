@@ -3,7 +3,7 @@ export interface User {
   name: string;
   email: string;
   isAdmin: boolean;
-  profilePicture: string;
+  imageUrl: string;
   token: string;
 }
 
@@ -22,7 +22,7 @@ export interface CartItem extends Item {
   amount: number;
 }
 
-export interface ShippingAddress {
+export interface ShippingAddressType {
   address: string;
   city: string;
   neighbour: string;
@@ -32,7 +32,7 @@ export interface ShippingAddress {
 
 export interface CartState {
   items: CartItem[];
-  shippingAddress: ShippingAddress;
+  shippingAddress: ShippingAddressType;
   showCart: boolean;
   totalAmount: number;
 }

@@ -1,7 +1,7 @@
 import { useRef } from 'react';
 import { useAppDispatch } from '../hooks';
 import { cartActions } from '../reducers/cartReducer';
-import { ShippingAddress } from '../interface/interfaces';
+import { ShippingAddressType } from '../interface/interfaces';
 import { useNavigate } from 'react-router-dom';
 import Stepper from '../components/Stepper';
 
@@ -22,7 +22,7 @@ const ShippingPage = () => {
     const cityValue = cityRef.current!.value;
     const phoneNumberValue = phoneNumberRef.current!.value;
 
-    const shippingAddress: ShippingAddress = {
+    const shippingAddress: ShippingAddressType = {
       address: addressValue,
       neighbour: neighbourValue,
       city: cityValue,

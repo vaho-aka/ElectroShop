@@ -1,12 +1,11 @@
 import { Link } from 'react-router-dom';
-// import { ShoppingCartSimple } from '@phosphor-icons/react';
 import { cartActions } from '../reducers/cartReducer.js';
 import MenuAccount from './MenuAccount.jsx';
 import { useAppDispatch, useAppSelector } from '../hooks.js';
 import { useLocation } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import NavigationLink from './NavigationLink.js';
-import CartIcon from './Icons/CartIcon.js';
+import { RiShoppingCartLine } from 'react-icons/ri';
 
 const MainNaviagation = () => {
   const dispatch = useAppDispatch();
@@ -37,7 +36,7 @@ const MainNaviagation = () => {
         <div className="flex items-center gap-5">
           <div className="relative">
             <button onClick={showCartHandler}>
-              <CartIcon />
+              <RiShoppingCartLine size={30} />
               <div className="absolute inline-flex items-center justify-center w-6 h-6 text-xs bg-emerald-600 rounded-full -top-2 -right-2 dark:border-gray-900">
                 {items.length}
               </div>
@@ -45,9 +44,6 @@ const MainNaviagation = () => {
           </div>
           {showNavLink && <NavigationLink />}
           {userLoggedIn.name && <MenuAccount />}
-          <div className="block sm:hidden sm:w-0 sm:h-0">
-            <MenuAccount />
-          </div>
         </div>
       </nav>
     </header>

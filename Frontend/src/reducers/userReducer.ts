@@ -8,7 +8,7 @@ const userInfoFromStorage: User = localStorage.getItem('electroshop-user-info')
       name: '',
       email: '',
       isAdmin: false,
-      profilePicture: '',
+      imageUrl: '',
       token: '',
     };
 
@@ -41,7 +41,7 @@ const userReducer = createSlice({
         name: '',
         email: '',
         isAdmin: false,
-        profilePicture: '',
+        imageUrl: '',
         token: '',
       };
 
