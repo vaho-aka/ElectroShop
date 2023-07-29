@@ -25,9 +25,9 @@ router.get('/logout', logOut);
 router.get('/', protect, admin, getUsers);
 
 router
-  .route('/:id')
-  .delete(protect, admin, deleteUser)
-  .get(protect, admin, getUserById)
-  .put(protect, admin, updateUser);
+  .route('/:id', protect, admin)
+  .delete(deleteUser)
+  .get(getUserById)
+  .put(updateUser);
 
 export default router;

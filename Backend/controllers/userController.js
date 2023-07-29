@@ -12,22 +12,22 @@ export const logIn = asyncHandler(async (req, res) => {
 
   const user = await User.findOne({ email });
 
-  if (!user && !(await user.matchPassword(password))) {
+  if (user && (await user.matchPassword(password))) {
+    const token = generateToken(user._id);
+
+    sendCookie(user, res);
+    res.json({
+      _id: user._id,
+      name: user.name,
+      email: user.email,
+      isAdmin: user.isAdmin,
+      imageUrl: user.imageUrl,
+      token,
+    });
+  } else {
     res.status(400);
-    throw new Error('Email ou mot de pass non valide');
+    throw new Error('Email ou mot de passe non validés');
   }
-
-  const token = generateToken(user._id);
-
-  sendCookie(user, res);
-  res.json({
-    _id: user._id,
-    name: user.name,
-    email: user.email,
-    isAdmin: user.isAdmin,
-    profilePicture: user.profilePicture,
-    token,
-  });
 });
 
 // ** @desc Log out user
@@ -72,7 +72,7 @@ export const signUp = asyncHandler(async (req, res) => {
     name: newUser.name,
     email: newUser.email,
     isAdmin: newUser.isAdmin,
-    profilePicture: newUser.profilePicture,
+    imageUrl: newUser.imageUrl,
     token: generateToken(newUser._id),
   });
 });
@@ -83,7 +83,7 @@ export const signUp = asyncHandler(async (req, res) => {
 export const getUserProfile = asyncHandler(async (req, res) => {
   res.json({
     _id: req.user._id,
-    profilePicture: req.user.profilePicture,
+    imageUrl: req.user.imageUrl,
     name: req.user.name,
     email: req.user.email,
   });
@@ -95,13 +95,13 @@ export const getUserProfile = asyncHandler(async (req, res) => {
 export const updateUserProfile = asyncHandler(async (req, res) => {
   req.user.name = req.body.name || req.user.name;
   req.user.email = req.body.email || req.user.email;
-  req.user.profilePicture = req.body.image
-    ? req.body.image
-    : req.user.profilePicture;
+  req.user.imageUrl = req.body.image ? req.body.image : req.user.imageUrl;
 
   if (req.body.password) {
     req.user.password = req.body.password;
   }
+
+  if (req.file) req.user.imageUrl = req.file.path;
 
   const updatedUser = await req.user.save();
 
@@ -109,7 +109,7 @@ export const updateUserProfile = asyncHandler(async (req, res) => {
     _id: updatedUser._id,
     name: updatedUser.name,
     email: updatedUser.email,
-    profilePicture: updatedUser.profilePicture,
+    imageUrl: updatedUser.imageUrl,
     isAdmin: updatedUser.isAdmin,
     token: generateToken(updatedUser._id),
   });
@@ -119,8 +119,8 @@ export const updateUserProfile = asyncHandler(async (req, res) => {
 // ** @route  GET /api/users
 // ** @access Private/Admin
 export const getUsers = asyncHandler(async (req, res) => {
-  const user = await User.find({});
-  res.json(user);
+  const users = await User.find({});
+  res.json(users);
 });
 
 // ** @desc   Delete user profil
@@ -129,13 +129,14 @@ export const getUsers = asyncHandler(async (req, res) => {
 export const deleteUser = asyncHandler(async (req, res) => {
   const user = await User.findById(req.params.id);
 
-  if (user) {
-    await user.delete();
-    res.json({ message: "L' utilisateur a été supprimer" });
-  } else {
+  if (!user) {
     res.status(404);
     throw new Error('Utilisateur non trouvé');
   }
+
+  await User.findByIdAndRemove(user._id);
+
+  res.json({ message: "L' utilisateur a été supprimer" });
 });
 
 // ** @desc   Get user by id
