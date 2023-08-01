@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { EyeSlash, Eye } from '@phosphor-icons/react';
+import { RiEyeOffLine, RiEyeLine } from 'react-icons/ri';
 import { Link } from 'react-router-dom';
 
 const RegisterPage = () => {
@@ -19,7 +19,7 @@ const RegisterPage = () => {
   };
 
   return (
-    <div className="sm:min-w-[400px] w-full flex flex-col gap-4 py-4 border p-4 rounded-md my-10">
+    <div className="max-w-[400px] h-fit w-full flex flex-col gap-4 py-4 sm:border p-4 rounded-md my-10 sm:bg-white sm:shadow-lg sm:shadow-gray-300">
       <div className="w-full text-center my-4">
         <h2 className="text-3xl">Inscription</h2>
       </div>
@@ -64,7 +64,11 @@ const RegisterPage = () => {
             />
             {password && (
               <div className="hidden sm:block" onClick={showPasswordHandler}>
-                {!showPassword ? <EyeSlash size={32} /> : <Eye size={32} />}
+                {!showPassword ? (
+                  <RiEyeOffLine size={32} />
+                ) : (
+                  <RiEyeLine size={32} />
+                )}
               </div>
             )}
           </div>

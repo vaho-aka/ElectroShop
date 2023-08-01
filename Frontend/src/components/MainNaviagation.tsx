@@ -6,6 +6,7 @@ import { useLocation } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import NavigationLink from './NavigationLink.js';
 import { RiShoppingCartLine } from 'react-icons/ri';
+import NavigationMobileLink from './NavigationMobileLink.js';
 
 const MainNaviagation = () => {
   const dispatch = useAppDispatch();
@@ -15,13 +16,9 @@ const MainNaviagation = () => {
   const [showNavLink, setShowNavLink] = useState(true);
 
   useEffect(() => {
-    setShowNavLink(
-      pathname.includes('/sign') || pathname.includes('/register')
-        ? false
-        : true
-    );
-    setShowNavLink(userLoggedIn.name ? false : true);
-  }, [pathname, userLoggedIn]);
+    if (userLoggedIn.name) setShowNavLink(false);
+    else setShowNavLink(true);
+  }, [userLoggedIn]);
 
   const showCartHandler = () => {
     dispatch(cartActions.SHOW_CART());
@@ -44,6 +41,11 @@ const MainNaviagation = () => {
           </div>
           {showNavLink && <NavigationLink />}
           {userLoggedIn.name && <MenuAccount />}
+          {!userLoggedIn.name && (
+            <div className="sm:hidden">
+              <NavigationMobileLink />
+            </div>
+          )}
         </div>
       </nav>
     </header>

@@ -35,12 +35,14 @@ const LoginPage = () => {
   };
 
   return (
-    <div className="sm:min-w-[400px] w-full flex flex-col border p-4 rounded-md my-10">
-      <div className="w-full flex flex-col items-center">
-        <div className="flex justify-center items-center h-20 w-20 rounded-full ring-2 ring-emerald-600 text-emerald-600">
+    <div className="max-w-[400px] flex flex-col sm:border p-4 rounded-md my-10 sm:bg-white sm:shadow-lg sm:shadow-gray-300 h-fit">
+      <div className="w-full">
+        <div className="flex m-auto justify-center items-center h-20 w-20 rounded-full ring-2 ring-emerald-600 text-emerald-600">
           <Crown size={50} />
         </div>
-        <span className="mt-5">Veuillez connecter à votre compte</span>
+        <span className="block text-center mt-4">
+          Veuillez connecter à votre compte
+        </span>
       </div>
       <form className="my-5" onSubmit={submitHandler}>
         <div className="flex flex-col gap-2 mb-2">
@@ -66,7 +68,7 @@ const LoginPage = () => {
         </div>
         <div className="flex flex-col gap-2 mb-2">
           <label htmlFor="password">Mot de passe</label>
-          <div className="border py-1 px-2 rounded flex items-center justify-between h-12">
+          <div className="border py-1 px-2 rounded flex items-center justify-between h-12 bg-white">
             <input
               onChange={(e: React.FormEvent<HTMLInputElement>) =>
                 setPassword(e.currentTarget.value)

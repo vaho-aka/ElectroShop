@@ -76,7 +76,7 @@ const ShippingPage = () => {
           </div>
           <div className="flex flex-col gap-2 mb-2">
             <label htmlFor="phone">Numéro de téléphone</label>
-            <div className="border p-2 rounded flex items-center gap-2 h-12">
+            <div className="border p-2 rounded flex items-center gap-2 h-12 bg-white">
               <span className="pr-2 border-r-2">🇲🇬 +261</span>
               <input
                 type="text"

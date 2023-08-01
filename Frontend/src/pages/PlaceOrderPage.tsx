@@ -16,7 +16,7 @@ const PlaceOrderPage = () => {
   return (
     <Stepper>
       {showModal && <ConfirmModal onClose={confirmModalHandler} />}
-      <div className="border rounded p-4 sm:min-w-[400px]">
+      <div className="sm:border rounded p-4 sm:min-w-[400px]">
         <div className="flex border-b-2 pb-2">
           <div className="flex flex-col gap-1 w-fit mr-4">
             <span>Nom</span>

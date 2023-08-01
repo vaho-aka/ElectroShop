@@ -8,7 +8,7 @@ const Card: React.FC<{ product: Item; loading?: boolean }> = ({
   loading,
 }) => {
   return (
-    <figure className="w-60 shadow-lg shadow-gray-300 p-2 flex flex-col gap-4 bg-gray-150 rounded last-of-type:justify-self-start">
+    <figure className="w-60 shadow-lg shadow-gray-300 p-2 flex flex-col gap-4 bg-gray-150 rounded last-of-type:justify-self-start bg-white">
       {loading ? (
         <SkeletonLoading height={127} />
       ) : (

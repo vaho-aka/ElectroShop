@@ -14,12 +14,10 @@ const Layout: React.FC<{ children: ReactNode }> = ({ children }) => {
   }, [pathname]);
 
   return (
-    <div className="">
+    <div className="bg-gray-50">
       {showCart && <Cart />}
       <MainNaviagation />
-      <main className="py-4 w-full flex justify-center main">
-        <div className="max-w-[1300px]">{children}</div>
-      </main>
+      <main className="py-4 w-full flex justify-center main">{children}</main>
       <Footer />
     </div>
   );
