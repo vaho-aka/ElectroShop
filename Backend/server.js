@@ -1,7 +1,6 @@
 import express from 'express';
 import dotenv from 'dotenv';
 import cors from 'cors';
-import path from 'path';
 import colors from 'colors';
 import mongoSanitize from 'express-mongo-sanitize';
 import rateLimit from 'express-rate-limit';
@@ -30,7 +29,7 @@ const limiter = rateLimit({
 
 app.use('/', limiter);
 
-app.use(cors({ origin: 'http://localhost:5173/' }));
+app.use(cors({ origin: '*' }));
 
 // Body parser, reading data from body into req.body
 app.use(express.json());
@@ -38,15 +37,11 @@ app.use(express.json());
 // Data sanitization against NoSQL query injection, needs to be after the Body parser
 app.use(mongoSanitize());
 
-// Serving static files
-const __dirname = path.resolve();
-app.use('/uploads', express.static(path.join(__dirname, '/uploads')));
-
 // Routes
 app.get('/', (req, res) => {
   res.send('Api is running...');
 });
-app.use('/api/v1', mainRoutes);
+app.use('/api', mainRoutes);
 
 app.use(notFound);
 app.use(errorHandler);

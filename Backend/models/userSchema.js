@@ -11,7 +11,7 @@ const userSchema = mongoose.Schema(
     imageUrl: {
       type: String,
       required: true,
-      default: '/uploads/users/avatar.jpg',
+      default: '/api/uploads/users/avatar.jpg',
     },
     isAdmin: {
       type: Boolean,

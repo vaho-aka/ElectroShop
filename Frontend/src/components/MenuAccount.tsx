@@ -4,7 +4,7 @@ import { Menu, Transition } from '@headlessui/react';
 import { Link } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '../hooks';
 import { logout } from '../actions/userActions';
-import { RiMenuLine } from 'react-icons/ri';
+import { RiArrowDropDownLine } from 'react-icons/ri';
 
 const MenuAccount = () => {
   const dispatch = useAppDispatch();
@@ -16,8 +16,18 @@ const MenuAccount = () => {
 
   return (
     <Menu as="div" className="relative z-50 inline-block text-left">
-      <Menu.Button className="inline-flex w-full justify-center bg-opacity-20 text-sm font-medium text-white">
-        <RiMenuLine size={30} />
+      <Menu.Button className="inline-flex w-full justify-center bg-opacity-20 text-sm font-medium text-white rounded-md bg-black px-2">
+        <div className="flex items-center gap-2 py-2 sm:p-0">
+          <span>{userLoggedIn.name}</span>
+          <RiArrowDropDownLine size={22} />
+          <div className="h-10 w-10 rounded-full overflow-hidden hidden sm:flex">
+            <img
+              src={userLoggedIn.imageUrl}
+              alt="user photo"
+              className="w-full h-full"
+            />
+          </div>
+        </div>
       </Menu.Button>
       <Transition
         as={Fragment}

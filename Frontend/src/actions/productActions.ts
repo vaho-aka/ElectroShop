@@ -7,7 +7,7 @@ export const getProducts = (): AppThunk => async (dispatch) => {
   try {
     dispatch(productActions.GET_PRODUCT_REQUEST());
 
-    const { data } = await axios.get<Item[]>('/api/v1/product');
+    const { data } = await axios.get<Item[]>('/api/product');
     dispatch(productActions.GET_PRODUCT_SUCCESS(data));
   } catch (error: any) {
     const message =
@@ -25,7 +25,7 @@ export const getProductById =
     try {
       dispatch(productActions.GET_PRODUCT_REQUEST());
 
-      const { data } = await axios.get<Item>(`/api/v1/product/${id}`);
+      const { data } = await axios.get<Item>(`/api/product/${id}`);
       dispatch(productActions.GET_PRODCUT_BY_ID_SUCCESS(data));
     } catch (error: any) {
       const message =
