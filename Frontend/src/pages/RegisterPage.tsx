@@ -1,17 +1,32 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { RiEyeOffLine, RiEyeLine } from 'react-icons/ri';
-import { Link } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { useAppDispatch, useAppSelector } from '../hooks';
+import { register } from '../actions/userActions';
+import { useForm } from 'react-hook-form';
+import { registerType } from '../interface/interfaces';
 
 const RegisterPage = () => {
+  const { search } = useLocation();
+  const navigate = useNavigate();
+  const dispatch = useAppDispatch();
   const [showPassword, setShowPassword] = useState(false);
-  const [password, setPassword] = useState('');
-  const [email, setEmail] = useState('');
-  const [userName, setUserName] = useState('');
+  const { userLoggedIn } = useAppSelector((state) => state.user);
 
-  const submitHandler = (e: React.FormEvent) => {
-    e.preventDefault();
+  const {
+    register: registerForm,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<registerType>();
 
-    console.log('signing...');
+  const redirect = search ? search.split('=')[1] : '/';
+
+  useEffect(() => {
+    if (userLoggedIn.name) navigate(redirect);
+  }, [userLoggedIn]);
+
+  const submitHandler = (data: registerType) => {
+    dispatch(register(data.username, data.email, data.password));
   };
 
   const showPasswordHandler = () => {
@@ -23,56 +38,77 @@ const RegisterPage = () => {
       <div className="w-full text-center my-4">
         <h2 className="text-3xl">Inscription</h2>
       </div>
-      <form onSubmit={submitHandler}>
+      <form onSubmit={handleSubmit(submitHandler)}>
         <div className="flex flex-col gap-2 mb-2">
           <label htmlFor="name">Nom d'utilisateur</label>
           <input
             type="text"
-            id="name"
             required
-            onChange={(e: React.FormEvent<HTMLInputElement>) =>
-              setUserName(e.currentTarget.value)
-            }
+            id="name"
+            {...registerForm('username', {
+              required: "Nom d'utilisateur requis",
+              minLength: {
+                value: 3,
+                message:
+                  "Le nom d'utilisateur doit comporter au moins 3 caractères",
+              },
+            })}
             className="border p-2 focus:outline-none rounded h-12"
           />
+          {errors.username && (
+            <p className="text-xs text-red-500">{errors.username.message}</p>
+          )}
         </div>
         <div className="flex flex-col gap-2 mb-2">
           <label htmlFor="email">Adresse email</label>
           <input
             type="email"
+            required
             id="email"
             placeholder="votre_email@example.com"
-            required
-            onChange={(e: React.FormEvent<HTMLInputElement>) =>
-              setEmail(e.currentTarget.value)
-            }
             className="border p-2 focus:outline-none rounded h-12"
+            {...registerForm('email', {
+              required: 'adresse e-mail est obligatoire',
+              pattern: {
+                value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i,
+                message: 'Adresse e-mail invalide',
+              },
+            })}
           />
+          {errors.email && (
+            <p className="text-xs text-red-500">{errors.email.message}</p>
+          )}
         </div>
         <div className="flex flex-col gap-2 mb-2">
           <label htmlFor="password">Mot de passe</label>
           <div className="border py-1 px-2 rounded flex items-center justify-between h-12">
             <input
-              onChange={(e: React.FormEvent<HTMLInputElement>) =>
-                setPassword(e.currentTarget.value)
-              }
               required
               id="password"
               placeholder="votre mot de passe"
               type={!showPassword ? 'password' : 'text'}
               className="focus:outline-none w-full"
+              {...registerForm('password', {
+                required: 'Mot de passe obligatoir',
+                minLength: {
+                  value: 6,
+                  message: "Mot de passe doit être d'au moins 6 caractères",
+                },
+              })}
             />
-            {password && (
-              <div className="hidden sm:block" onClick={showPasswordHandler}>
-                {!showPassword ? (
-                  <RiEyeOffLine size={32} />
-                ) : (
-                  <RiEyeLine size={32} />
-                )}
-              </div>
-            )}
+            <div className="hidden sm:block" onClick={showPasswordHandler}>
+              {!showPassword ? (
+                <RiEyeOffLine size={22} />
+              ) : (
+                <RiEyeLine size={22} />
+              )}
+            </div>
           </div>
-
+          {errors.password && (
+            <p className="text-xs italic text-red-500">
+              {errors.password.message}
+            </p>
+          )}
           <div className="flex gap-2 items-center sm:hidden">
             <input
               type="checkbox"

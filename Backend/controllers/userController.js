@@ -46,7 +46,7 @@ export const logOut = asyncHandler(async (req, res) => {
 // ** @route  POST /api/users
 // ** @access Public
 export const signUp = asyncHandler(async (req, res) => {
-  const { name, email, password } = req.body;
+  const { userName, email, password } = req.body;
 
   const userExists = await User.findOne({ email });
 
@@ -56,7 +56,7 @@ export const signUp = asyncHandler(async (req, res) => {
   }
 
   const newUser = await User.create({
-    name,
+    name: userName,
     email,
     password,
   });

@@ -1,10 +1,11 @@
-import React, { useEffect, useState } from 'react';
-import { Crown, EyeSlash, Eye } from '@phosphor-icons/react';
+import { useEffect, useState } from 'react';
+import { Crown } from '@phosphor-icons/react';
+import { RiEyeOffLine, RiEyeLine } from 'react-icons/ri';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '../hooks';
 import { login } from '../actions/userActions';
-// import ErrorWarningIcon from '../components/Icons/ErrorWarningIcon';
-import { RiErrorWarningLine } from 'react-icons/ri';
+import { useForm } from 'react-hook-form';
+import { loginType } from '../interface/interfaces';
 
 const LoginPage = () => {
   const { search } = useLocation();
@@ -12,9 +13,12 @@ const LoginPage = () => {
   const dispatch = useAppDispatch();
   const { userLoggedIn } = useAppSelector((state) => state.user);
   const [showPassword, setShowPassword] = useState(false);
-  const [password, setPassword] = useState('');
-  const [email, setEmail] = useState('');
-  const [validEmail, setValidEmail] = useState(true);
+
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<loginType>();
 
   const redirect = search ? search.split('=')[1] : '/';
 
@@ -22,12 +26,8 @@ const LoginPage = () => {
     if (userLoggedIn.name) navigate(redirect);
   }, [userLoggedIn]);
 
-  const submitHandler = (e: React.FormEvent) => {
-    e.preventDefault();
-    const pattern = /[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/g;
-
-    setValidEmail(email.match(pattern) ? true : false);
-    if (email.match(pattern)) dispatch(login(email, password));
+  const submitHandler = (data: loginType) => {
+    dispatch(login(data.email, data.password));
   };
 
   const showPasswordHandler = () => {
@@ -44,7 +44,7 @@ const LoginPage = () => {
           Veuillez connecter à votre compte
         </span>
       </div>
-      <form className="my-5" onSubmit={submitHandler}>
+      <form className="my-5" onSubmit={handleSubmit(submitHandler)}>
         <div className="flex flex-col gap-2 mb-2">
           <label htmlFor="email">Adresse email</label>
           <input
@@ -52,40 +52,50 @@ const LoginPage = () => {
             id="email"
             placeholder="votre_email@example.com"
             required
-            onChange={(e: React.FormEvent<HTMLInputElement>) =>
-              setEmail(e.currentTarget.value)
-            }
-            className="border p-2 focus:outline-none rounded h-12"
+            className="border p-2 focus:outline-none rounded h-12 bg-white sm:bg-gray-50"
+            {...register('email', {
+              required: 'adresse e-mail est obligatoire',
+              pattern: {
+                value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i,
+                message: 'Adresse e-mail invalide',
+              },
+            })}
           />
-          {!validEmail && (
-            <div className="flex gap-2 items-center text-red-500">
-              <RiErrorWarningLine size={20} />
-              <span className="font-semibold">
-                Votre adresse email est invalide
-              </span>
-            </div>
+          {errors.email && (
+            <p className="text-xs text-red-500">{errors.email.message}</p>
           )}
         </div>
         <div className="flex flex-col gap-2 mb-2">
           <label htmlFor="password">Mot de passe</label>
-          <div className="border py-1 px-2 rounded flex items-center justify-between h-12 bg-white">
+          <div className="border py-1 px-2 rounded flex items-center justify-between h-12 bg-white sm:bg-gray-50">
             <input
-              onChange={(e: React.FormEvent<HTMLInputElement>) =>
-                setPassword(e.currentTarget.value)
-              }
               required
               id="password"
               minLength={6}
               placeholder="votre mot de passe"
               type={!showPassword ? 'password' : 'text'}
-              className="focus:outline-none w-full "
+              className="focus:outline-none w-full sm:bg-gray-50"
+              {...register('password', {
+                required: 'Mot de passe obligatoir',
+                minLength: {
+                  value: 6,
+                  message: "Mot de passe doit être d'au moins 6 caractères",
+                },
+              })}
             />
-            {password && (
-              <div className="hidden sm:block" onClick={showPasswordHandler}>
-                {!showPassword ? <EyeSlash size={32} /> : <Eye size={32} />}
-              </div>
-            )}
+            <div className="hidden sm:block" onClick={showPasswordHandler}>
+              {!showPassword ? (
+                <RiEyeOffLine size={22} />
+              ) : (
+                <RiEyeLine size={22} />
+              )}
+            </div>
           </div>
+          {errors.password && (
+            <p className="text-xs italic text-red-500">
+              {errors.password.message}
+            </p>
+          )}
         </div>
         <div className="flex gap-2 items-center sm:hidden">
           <input

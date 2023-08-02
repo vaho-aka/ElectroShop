@@ -54,3 +54,12 @@ export interface ProductState extends State {
 export interface UserState extends State {
   userLoggedIn: User;
 }
+
+export interface loginType {
+  email: string;
+  password: string;
+}
+
+export interface registerType extends loginType {
+  username: string;
+}

@@ -50,3 +50,36 @@ export const logout = (): AppThunk => async (dispatch) => {
     dispatch(userActions.GET_USER_FAIL(message));
   }
 };
+
+export const register =
+  (userName: string, email: string, password: string): AppThunk =>
+  async (dispatch) => {
+    try {
+      dispatch(userActions.GET_USER_REQUEST());
+
+      const config = {
+        headers: {
+          'content-type': 'application/json',
+        },
+      };
+
+      const { data } = await axios.post<User>(
+        '/api/user/signup',
+        {
+          userName,
+          email,
+          password,
+        },
+        config
+      );
+      dispatch(userActions.GET_USER_SUCCESS(data));
+      localStorage.setItem('electroshop-user-info', JSON.stringify(data));
+    } catch (error: any) {
+      const message =
+        error.response && error.response.data.message
+          ? error.response.data.message
+          : error.message;
+
+      dispatch(userActions.GET_USER_FAIL(message));
+    }
+  };

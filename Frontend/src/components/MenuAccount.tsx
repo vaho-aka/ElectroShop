@@ -4,7 +4,7 @@ import { Menu, Transition } from '@headlessui/react';
 import { Link } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '../hooks';
 import { logout } from '../actions/userActions';
-import { RiArrowDropDownLine } from 'react-icons/ri';
+import { RiArrowDropDownLine, RiMenuLine } from 'react-icons/ri';
 
 const MenuAccount = () => {
   const dispatch = useAppDispatch();
@@ -15,19 +15,32 @@ const MenuAccount = () => {
   };
 
   return (
-    <Menu as="div" className="relative z-50 inline-block text-left">
-      <Menu.Button className="inline-flex w-full justify-center bg-opacity-20 text-sm font-medium text-white rounded-md bg-black px-2">
-        <div className="flex items-center gap-2 py-2 sm:p-0">
-          <span>{userLoggedIn.name}</span>
-          <RiArrowDropDownLine size={22} />
-          <div className="h-10 w-10 rounded-full overflow-hidden hidden sm:flex">
-            <img
-              src={userLoggedIn.imageUrl}
-              alt="user photo"
-              className="w-full h-full"
-            />
+    <Menu
+      as="div"
+      className={`relative z-50 inline-block text-left ${
+        !userLoggedIn.name ? 'md:hidden' : ''
+      }`}
+    >
+      <Menu.Button
+        className={`inline-flex w-full justify-center bg-opacity-20 text-sm font-medium text-white rounded-md bg-black px-2 ${
+          !userLoggedIn.name ? 'py-1' : ''
+        }`}
+      >
+        {userLoggedIn.name ? (
+          <div className="flex items-center gap-2 py-2 sm:p-0">
+            <span>{userLoggedIn.name}</span>
+            <RiArrowDropDownLine size={22} />
+            <div className="h-10 w-10 rounded-full overflow-hidden hidden sm:flex">
+              <img
+                src={userLoggedIn.imageUrl}
+                alt="user photo"
+                className="w-full h-full"
+              />
+            </div>
           </div>
-        </div>
+        ) : (
+          <RiMenuLine size={22} />
+        )}
       </Menu.Button>
       <Transition
         as={Fragment}
@@ -39,7 +52,7 @@ const MenuAccount = () => {
         leaveTo="transform scale-95 opacity-0"
       >
         <Menu.Items className="absolute right-0 w-56 mt-2 origin-top-right bg-slate-700 rounded-md shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none flex flex-col p-1">
-          {!userLoggedIn ? (
+          {!userLoggedIn.name ? (
             <>
               <Menu.Item>
                 <Link

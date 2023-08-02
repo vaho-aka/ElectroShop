@@ -2,15 +2,12 @@ import { Link } from 'react-router-dom';
 import { cartActions } from '../reducers/cartReducer.js';
 import MenuAccount from './MenuAccount.jsx';
 import { useAppDispatch, useAppSelector } from '../hooks.js';
-import { useLocation } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import NavigationLink from './NavigationLink.js';
 import { RiShoppingCartLine } from 'react-icons/ri';
-import NavigationMobileLink from './NavigationMobileLink.js';
 
 const MainNaviagation = () => {
   const dispatch = useAppDispatch();
-  const { pathname } = useLocation();
   const { items } = useAppSelector((state) => state.cart);
   const { userLoggedIn } = useAppSelector((state) => state.user);
   const [showNavLink, setShowNavLink] = useState(true);
@@ -40,12 +37,7 @@ const MainNaviagation = () => {
             </button>
           </div>
           {showNavLink && <NavigationLink />}
-          {userLoggedIn.name && <MenuAccount />}
-          {!userLoggedIn.name && (
-            <div className="sm:hidden">
-              <NavigationMobileLink />
-            </div>
-          )}
+          <MenuAccount />
         </div>
       </nav>
     </header>

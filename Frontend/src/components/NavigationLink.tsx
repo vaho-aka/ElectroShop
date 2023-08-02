@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 
 const NavigationLink = () => {
   return (
-    <ul className="hidden w-0 h-0 sm:flex sm:w-fit sm:h-fit items-center gap-5">
+    <ul className="hidden w-0 h-0 md:flex md:w-fit md:h-fit items-center gap-5">
       <li>
         <Link
           to="/register"
