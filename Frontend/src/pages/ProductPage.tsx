@@ -6,6 +6,15 @@ import SkeletonLoading from '../components/SkeletonLoading';
 import LoadingSpinner from '../components/LoadingSpinner';
 import { useAppSelector, useAppDispatch } from '../hooks';
 import { getProductById } from '../actions/productActions';
+import Rating from '../components/Rating';
+
+const ratingData = [
+  { star: 5, pourcentage: '70%' },
+  { star: 4, pourcentage: '17%' },
+  { star: 3, pourcentage: '8%' },
+  { star: 2, pourcentage: '4%' },
+  { star: 1, pourcentage: '1%' },
+];
 
 const ProductDetailPage: React.FC<{ loading?: boolean }> = ({ loading }) => {
   const { productId } = useParams();
@@ -40,10 +49,16 @@ const ProductDetailPage: React.FC<{ loading?: boolean }> = ({ loading }) => {
   const inputNumberChangeHandler = (e: React.FormEvent<HTMLInputElement>) =>
     setItemNumber(+e.currentTarget.value);
 
+  const submitRatingHandler = (e: React.FormEvent) => {
+    e.preventDefault();
+
+    console.log('Evaluating...');
+  };
+
   return (
     <div className="max-w-[1300px]">
-      <div className="grid sm:grid-cols-2 gap-5 items-stretch sm:max-w-none">
-        <div className="flex justify-center items-center border rounded p-4">
+      <div className="grid grid-cols-1 max-w-[700px] lg:grid-cols-2 gap-5 lg:items-stretch lg:max-w-none">
+        <div className="bg-white flex justify-center items-center border-y sm:border sm:rounded py-20 lg:p-4">
           {loading ? (
             <LoadingSpinner />
           ) : (
@@ -56,11 +71,14 @@ const ProductDetailPage: React.FC<{ loading?: boolean }> = ({ loading }) => {
             </div>
           )}
         </div>
-        <div className="flex flex-col gap-4 border p-4 sm:max-w-none rounded w-full">
+        <div className="flex bg-white flex-col gap-4 border-y sm:border p-4 sm:max-w-none rounded w-full">
           {loading ? (
             <SkeletonLoading count={1} />
           ) : (
-            <h3 className="text-3xl border-b pb-2">{product.name}</h3>
+            <div className="border-b pb-2 flex gap-2">
+              <h3 className="text-3xl">{product.name}</h3>
+              <Rating value={3.5} />
+            </div>
           )}
           <div className="flex gap-4 items-center">
             {loading ? (
@@ -130,6 +148,56 @@ const ProductDetailPage: React.FC<{ loading?: boolean }> = ({ loading }) => {
               </button>
             </form>
           )}
+        </div>
+        <div className="p-4 border rounded w-full bg-white border-y sm:border">
+          <div className="flex flex-col gap-2">
+            <Rating value={3.5} />
+            <span>1 745 évaluations</span>
+          </div>
+          {ratingData.map(({ star, pourcentage }) => (
+            <div className="flex items-center mt-4" key={star}>
+              <span>{star} étoile</span>
+              <div className="w-2/4 h-5 mx-4 bg-gray-200 rounded">
+                <div
+                  className="h-5 bg-yellow-300 rounded"
+                  style={{ width: pourcentage }}
+                ></div>
+              </div>
+              <span className="text-sm font-medium text-gray-500">
+                {pourcentage}
+              </span>
+            </div>
+          ))}
+          <div className="mt-4">
+            <form
+              onSubmit={submitRatingHandler}
+              className="flex flex-col gap-2"
+            >
+              <textarea
+                name=""
+                id=""
+                rows={5}
+                maxLength={255}
+                required
+                className="resize-none bg-gray-50 border focus:outline-none p-2"
+              ></textarea>
+              <label htmlFor="rating">Évaluer le produit :</label>
+              <select required id="rating">
+                <option value="">Choisir...</option>
+                <option value="1">1 - Mauvais</option>
+                <option value="2">2 - Équitable</option>
+                <option value="3"> 3 - Bien</option>
+                <option value="4">4 - Très bien</option>
+                <option value="5">5 Excellent</option>
+              </select>
+              <button className="w-full py-4 bg-slate-900  text-neutral-200 mt-4 active:translate-y-1  shadow-lg shadow-gray-300 active:shadow-none transition-all">
+                Valider
+              </button>
+            </form>
+          </div>
+        </div>
+        <div className="p-4 border-y sm:border rounded bg-white w-full">
+          right
         </div>
       </div>
     </div>

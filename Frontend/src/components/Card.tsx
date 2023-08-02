@@ -2,6 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import SkeletonLoading from './SkeletonLoading';
 import { Item } from '../interface/interfaces';
+import Rating from './Rating';
 
 const Card: React.FC<{ product: Item; loading?: boolean }> = ({
   product,
@@ -22,12 +23,13 @@ const Card: React.FC<{ product: Item; loading?: boolean }> = ({
       )}
       <figcaption className=" flex flex-col h-full gap-2">
         {loading ? (
-          <SkeletonLoading count={1.5} />
+          <SkeletonLoading count={2} />
         ) : (
           <>
             <Link to={`/details/${product._id}`} className="hover:underline">
               <h6>{product.name}</h6>
             </Link>
+            <Rating value={3.5} />
             <p>{product.price} Ar</p>
           </>
         )}

@@ -34,7 +34,7 @@ const ProfilPage = () => {
   }, [userLoggedIn, userName, email, password]);
 
   return (
-    <div className="grid md:grid-cols-3 grid-cols-1 md:gap-x-4 gap-y-4 md:gap-y-0 p-4 w-full">
+    <div className="grid md:grid-cols-3 grid-cols-1 p-4 w-full">
       <div className="sm:col-span-1 max-w-[400px] m-auto md:m-0">
         <div>
           <h1 className="text-2xl">Profile d'utilisateur</h1>
@@ -43,6 +43,13 @@ const ProfilPage = () => {
           className="w-full sm:border-2 sm:p-4 my-4 rounded-md sm:bg-white"
           onSubmit={modifyProfilHandler}
         >
+          <div className="h-32 w-32 bg-slate-500 mb-4 rounded-full">
+            <img
+              src={userLoggedIn.imageUrl}
+              className="h-full w-full"
+              alt="user photo"
+            />
+          </div>
           <div className="flex flex-col gap-2 mb-2">
             <label htmlFor="name">Nom d'utilisateur</label>
             <input
@@ -114,7 +121,7 @@ const ProfilPage = () => {
             <span className="sm:text-left text-right">Payé</span>
             <span className="hidden md:block">Livraison</span>
           </div>
-          <ul className="">
+          <ul className="bg-white">
             {Array.from('vahoaka irna rak').map((nm, i) => (
               <li key={i} className={`${tableClasses} border-b`}>
                 <span>sdf2s3f5183fs</span>
