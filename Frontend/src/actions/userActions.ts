@@ -16,7 +16,7 @@ export const login =
       };
 
       const { data } = await axios.post<User>(
-        '/api/user/login',
+        '/api/v1/user/login',
         {
           email,
           password,
@@ -39,7 +39,7 @@ export const logout = (): AppThunk => async (dispatch) => {
   try {
     dispatch(userActions.GET_USER_REQUEST());
 
-    await axios.get('/api/user/logout');
+    await axios.get('/api/v1/user/logout');
     dispatch(userActions.USER_LOG_OUT());
   } catch (error: any) {
     const message =
@@ -64,7 +64,7 @@ export const register =
       };
 
       const { data } = await axios.post<User>(
-        '/api/user/signup',
+        '/api/v1/user/signup',
         {
           userName,
           email,

@@ -5,18 +5,22 @@ import {
   ShippingAddressType,
 } from '../interface/interfaces';
 
-const initialState: CartState = {
-  items: [],
-  shippingAddress: {
-    address: '',
-    city: '',
-    neighbour: '',
-    paymentMethod: '',
-    phoneNumber: '',
-  },
-  showCart: false,
-  totalAmount: 0,
-};
+const cartFromStorage: CartState = localStorage.getItem('electroshop-user-cart')
+  ? JSON.parse(localStorage.getItem('electroshop-user-cart') || '')
+  : {
+      items: [],
+      shippingAddress: {
+        address: '',
+        city: '',
+        neighbour: '',
+        paymentMethod: '',
+        phoneNumber: '',
+      },
+      showCart: false,
+      totalAmount: 0,
+    };
+
+const initialState: CartState = cartFromStorage;
 
 const cartReducer = createSlice({
   name: 'cart',
@@ -32,9 +36,12 @@ const cartReducer = createSlice({
       const existItem = state.items[itemIndex];
 
       if (!existItem) {
-        state.totalAmount = state.totalAmount + price * action.payload.amount;
+        state.totalAmount += price * action.payload.amount;
+        console.log(state.totalAmount);
         state.items = [...state.items, action.payload];
       } else {
+        state.totalAmount -= price * existItem.amount;
+
         const amountFree = existItem.countInStock - existItem.amount;
 
         const amount =
@@ -42,22 +49,22 @@ const cartReducer = createSlice({
             ? existItem.amount + action.payload.amount
             : existItem.amount + amountFree;
 
+        console.log(amount * price);
         const updateItem = {
           ...action.payload,
           amount,
         };
 
-        state.totalAmount = state.totalAmount + price * amount;
+        state.totalAmount += price * updateItem.amount;
         state.items[itemIndex] = updateItem;
       }
-      localStorage.setItem('electroshop-products', JSON.stringify(state.items));
+      localStorage.setItem('electroshop-user-cart', JSON.stringify(state));
     },
     REMOVE_ITEM(state, action: PayloadAction<string>) {
       const itemIndex = state.items.findIndex(
         (item) => item._id === action.payload
       );
 
-      console.log(action.payload);
       const itemToRemove = state.items[itemIndex];
 
       const price = +itemToRemove.price.split(' ').join('');
@@ -74,6 +81,7 @@ const cartReducer = createSlice({
         state.items = state.items.filter(
           (item) => item._id !== updatedItem._id
         );
+        // state.totalAmount -= price;
       } else {
         updatedItems = [...state.items];
         updatedItems[itemIndex] = updatedItem;
@@ -82,13 +90,14 @@ const cartReducer = createSlice({
       }
 
       if (state.items.length <= 0)
-        localStorage.removeItem('electroshop-products');
+        localStorage.removeItem('electroshop-user-cart');
     },
     SHOW_CART(state) {
       state.showCart = !state.showCart;
     },
     ADD_SHIPPING_ADDRESS(state, action: PayloadAction<ShippingAddressType>) {
       state.shippingAddress = action.payload;
+      localStorage.setItem('electroshop-user-cart', JSON.stringify(state));
     },
   },
 });

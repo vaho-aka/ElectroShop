@@ -34,8 +34,8 @@ const ProfilPage = () => {
   }, [userLoggedIn, userName, email, password]);
 
   return (
-    <div className="grid md:grid-cols-3 grid-cols-1 p-4 w-full">
-      <div className="sm:col-span-1 max-w-[400px] m-auto md:m-0">
+    <div className="grid lg:grid-cols-3 grid-cols-1 p-4 w-full">
+      <div className="md:col-span-1 max-w-[400px] m-auto lg:m-0">
         <div>
           <h1 className="text-2xl">Profile d'utilisateur</h1>
         </div>

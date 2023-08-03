@@ -22,7 +22,7 @@ app.use(helmet());
 
 // Limit requests from same API
 const limiter = rateLimit({
-  max: 100,
+  max: 10000,
   windowMs: 60 * 60 * 1000,
   message: 'Too many requests from this IP, please try again in an hour!',
 });
@@ -41,7 +41,7 @@ app.use(mongoSanitize());
 app.get('/', (req, res) => {
   res.send('Api is running...');
 });
-app.use('/api', mainRoutes);
+app.use('/api/v1', mainRoutes);
 
 app.use(notFound);
 app.use(errorHandler);

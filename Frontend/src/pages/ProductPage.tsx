@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import { RiAddLine, RiSubtractLine } from 'react-icons/ri';
 import { cartActions } from '../reducers/cartReducer';
 import SkeletonLoading from '../components/SkeletonLoading';
@@ -75,9 +75,10 @@ const ProductDetailPage: React.FC<{ loading?: boolean }> = ({ loading }) => {
           {loading ? (
             <SkeletonLoading count={1} />
           ) : (
-            <div className="border-b pb-2 flex gap-2">
-              <h3 className="text-3xl">{product.name}</h3>
-              <Rating value={3.5} />
+            <div className="border-b pb-2 flex items-center">
+              <h3 className="text-3xl border-l-4 border-emerald-500 px-4">
+                {product.name}
+              </h3>
             </div>
           )}
           <div className="flex gap-4 items-center">
@@ -150,20 +151,25 @@ const ProductDetailPage: React.FC<{ loading?: boolean }> = ({ loading }) => {
           )}
         </div>
         <div className="p-4 border rounded w-full bg-white border-y sm:border">
-          <div className="flex flex-col gap-2">
+          <div className="border-b pb-2">
+            <h3 className="text-3xl border-l-4 border-emerald-500 px-4">
+              Évaluation du produit
+            </h3>
+          </div>
+          <div className="flex flex-col gap-2 my-4">
             <Rating value={3.5} />
             <span>1 745 évaluations</span>
           </div>
           {ratingData.map(({ star, pourcentage }) => (
-            <div className="flex items-center mt-4" key={star}>
-              <span>{star} étoile</span>
-              <div className="w-2/4 h-5 mx-4 bg-gray-200 rounded">
+            <div className="flex items-center" key={star}>
+              <span className="flex-1">{star} étoile</span>
+              <div className="w-2/4 h-5 mx-4 flex-auto bg-gray-200 rounded">
                 <div
                   className="h-5 bg-yellow-300 rounded"
                   style={{ width: pourcentage }}
                 ></div>
               </div>
-              <span className="text-sm font-medium text-gray-500">
+              <span className="text-sm font-medium text-gray-500 flex-1">
                 {pourcentage}
               </span>
             </div>
@@ -176,6 +182,7 @@ const ProductDetailPage: React.FC<{ loading?: boolean }> = ({ loading }) => {
               <textarea
                 name=""
                 id=""
+                placeholder="Rédiger votre avis..."
                 rows={5}
                 maxLength={255}
                 required
@@ -188,7 +195,7 @@ const ProductDetailPage: React.FC<{ loading?: boolean }> = ({ loading }) => {
                 <option value="2">2 - Équitable</option>
                 <option value="3"> 3 - Bien</option>
                 <option value="4">4 - Très bien</option>
-                <option value="5">5 Excellent</option>
+                <option value="5">5 - Excellent</option>
               </select>
               <button className="w-full py-4 bg-slate-900  text-neutral-200 mt-4 active:translate-y-1  shadow-lg shadow-gray-300 active:shadow-none transition-all">
                 Valider
@@ -197,7 +204,41 @@ const ProductDetailPage: React.FC<{ loading?: boolean }> = ({ loading }) => {
           </div>
         </div>
         <div className="p-4 border-y sm:border rounded bg-white w-full">
-          right
+          <div className="border-b pb-2">
+            <h3 className="text-3xl border-l-4 border-emerald-500 px-4">
+              Avis des clients
+            </h3>
+          </div>
+          <ul className="overflow-y-scroll lg:max-h-[80vh]">
+            {Array.from('vahoaka').map((id, i) => (
+              <li className="py-2" key={i}>
+                <div className="flex items-center gap-2">
+                  <Link to="/">
+                    <img
+                      src="/api/v1/uploads/users/avatar.jpg"
+                      alt="user photo"
+                      className="inline-block h-10 w-10 rounded-full ring-2 ring-white bg-slate-500"
+                    />
+                  </Link>
+                  <div className="flex flex-col">
+                    <Link to="/" className="hover:underline">
+                      <span>Vahoaka</span>
+                    </Link>
+                    <span className="text-gray-500">il y a 1 mois</span>
+                  </div>
+                </div>
+                <div className="py-2">
+                  <Rating value={3} />
+                </div>
+                <p>
+                  Lorem ipsum dolor sit amet, consectetur adipisicing elit.
+                  Recusandae dicta cupiditate labore et eum facilis molestiae?
+                  Quaerat similique est, enim, impedit vitae culpa natus tempore
+                  beatae, laborum nulla rem aspernatur!
+                </p>
+              </li>
+            ))}
+          </ul>
         </div>
       </div>
     </div>

@@ -30,13 +30,11 @@ const MenuAccount = () => {
           <div className="flex items-center gap-2 py-2 sm:p-0">
             <span>{userLoggedIn.name}</span>
             <RiArrowDropDownLine size={22} />
-            <div className="h-10 w-10 rounded-full overflow-hidden hidden sm:flex">
-              <img
-                src={userLoggedIn.imageUrl}
-                alt="user photo"
-                className="w-full h-full"
-              />
-            </div>
+            <img
+              src={userLoggedIn.imageUrl}
+              alt="user photo"
+              className="inline-block h-10 w-10 rounded-full ring-2 ring-white"
+            />
           </div>
         ) : (
           <RiMenuLine size={22} />
