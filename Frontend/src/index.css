@@ -85,3 +85,20 @@ input[type='number'] {
   background-position: -100%;
   color: #fafafa;
 }
+
+.scroll-bar::-webkit-scrollbar {
+  width: 10px;
+}
+
+.scroll-bar::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+.scroll-bar::-webkit-scrollbar-thumb {
+  background: #888;
+  border-radius: 5px;
+}
+
+.scroll-bar::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}

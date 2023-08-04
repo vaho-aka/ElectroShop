@@ -1,5 +1,5 @@
 import { PayloadAction, createSlice } from '@reduxjs/toolkit';
-import { ProductState, Item, CartItem } from '../interface/interfaces';
+import { ProductState, Item, Review } from '../interface/interfaces';
 
 const initialState: ProductState = {
   products: [],
@@ -12,7 +12,10 @@ const initialState: ProductState = {
     category: '',
     countInStock: 0,
     imageUrl: '',
+    rating: 0,
+    numReview: 0,
   },
+  reviews: [],
   loading: false,
   error: '',
 };
@@ -29,9 +32,13 @@ const productReducer = createSlice({
       state.products = action.payload;
       state.error = '';
     },
-    GET_PRODCUT_BY_ID_SUCCESS(state, action: PayloadAction<Item>) {
+    GET_PRODCUT_BY_ID_SUCCESS(
+      state,
+      action: PayloadAction<{ product: Item; reviews: Array<Review> }>
+    ) {
       state.loading = false;
-      state.product = action.payload;
+      state.product = action.payload.product;
+      state.reviews = action.payload.reviews;
       state.error = '';
     },
     GET_PRODUCT_FAIL(state, action: PayloadAction<string>) {

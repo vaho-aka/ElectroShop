@@ -25,7 +25,7 @@ export const getProductById =
     try {
       dispatch(productActions.GET_PRODUCT_REQUEST());
 
-      const { data } = await axios.get<Item>(`/api/v1/product/${id}`);
+      const { data } = await axios.get(`/api/v1/product/${id}`);
       dispatch(productActions.GET_PRODCUT_BY_ID_SUCCESS(data));
     } catch (error: any) {
       const message =
@@ -35,4 +35,11 @@ export const getProductById =
 
       dispatch(productActions.GET_PRODUCT_FAIL(message));
     }
+  };
+
+export const rateProduct =
+  (id: string): AppThunk =>
+  async (dispatch, getState) => {
+    try {
+    } catch (error: any) {}
   };

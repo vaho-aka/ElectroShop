@@ -209,7 +209,7 @@ const ProductDetailPage: React.FC<{ loading?: boolean }> = ({ loading }) => {
               Avis des clients
             </h3>
           </div>
-          <ul className="overflow-y-scroll lg:max-h-[80vh]">
+          <ul className="overflow-y-scroll lg:max-h-[500px] scroll-bar">
             {Array.from('vahoaka').map((id, i) => (
               <li className="py-2" key={i}>
                 <div className="flex items-center gap-2">
