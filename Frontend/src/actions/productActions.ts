@@ -38,8 +38,31 @@ export const getProductById =
   };
 
 export const rateProduct =
-  (id: string): AppThunk =>
+  (id: string, comment: string, rating: string): AppThunk =>
   async (dispatch, getState) => {
     try {
-    } catch (error: any) {}
+      dispatch(productActions.GET_PRODUCT_REQUEST());
+      const { userLoggedIn } = getState().user;
+
+      const config = {
+        headers: {
+          'content-type': 'application/json',
+          Authorization: `Bearer ${userLoggedIn.token}`,
+        },
+      };
+
+      const { data } = await axios.post(
+        `/api/v1/product/${id}/review`,
+        { comment, rating },
+        config
+      );
+      dispatch(productActions.GET_PRODCUT_BY_ID_SUCCESS(data));
+    } catch (error: any) {
+      const message =
+        error.response && error.response.data.message
+          ? error.response.data.message
+          : error.message;
+
+      dispatch(productActions.GET_PRODUCT_FAIL(message));
+    }
   };

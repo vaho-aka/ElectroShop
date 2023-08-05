@@ -22,7 +22,9 @@ export const getProductsById = asyncHandler(async (req, res) => {
     throw new Error("Le produit que vous rechercher n'exist pas");
   }
 
-  const reviews = await Review.find({ productId: product._id });
+  const reviews = await Review.find({ productId: product._id }).populate(
+    'user'
+  );
   res.json({ product, reviews });
 });
 
@@ -37,7 +39,10 @@ export const createRating = asyncHandler(async (req, res) => {
     throw new Error("Le produit que vous rechercher n'exist pas");
   }
 
-  const alreadyRated = await Review.find({ user: req.user._id });
+  const alreadyRated = (await Review.find({ productId: product._id })).find(
+    (p) => p.user.toString() === req.user._id.toString()
+  );
+
   if (alreadyRated) {
     throw new Error('Vous avze déjà evaluer ce produit');
   }
@@ -45,16 +50,20 @@ export const createRating = asyncHandler(async (req, res) => {
   const { rating, comment } = req.body;
 
   await Review.create({
-    rating,
+    rating: +rating,
     comment,
     productId: product._id,
     user: req.user._id,
   });
-  const reviews = await Review.find({ productId: product._id });
+  const reviews = await Review.find({ productId: product._id }).populate(
+    'user'
+  );
 
   product.numReviews++;
   product.rating =
     reviews.reduce((acc, item) => item.rating + acc, 0) / product.numReviews;
 
-  res.status(201).json({ status: 'success' });
+  await product.save();
+
+  res.json({ product, reviews });
 });

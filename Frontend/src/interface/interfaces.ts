@@ -17,12 +17,12 @@ export interface Item {
   countInStock: number;
   imageUrl: string;
   rating: number;
-  numReview: number;
+  numReviews: number;
 }
 
 export interface Review {
   _id: string;
-  productId: string;
+  user: User;
   rating: number;
   comment: string;
 }
@@ -59,6 +59,7 @@ export interface ProductState extends State {
   products: Array<Item>;
   product: Item;
   reviews: Array<Review>;
+  message: string;
 }
 
 export interface UserState extends State {

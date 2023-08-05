@@ -29,7 +29,10 @@ const Card: React.FC<{ product: Item; loading?: boolean }> = ({
             <Link to={`/details/${product._id}`} className="hover:underline">
               <h6>{product.name}</h6>
             </Link>
-            <Rating value={3.5} />
+            <div className="flex gap-2">
+              <Rating value={product.rating} />
+              <span className="text-gray-500">({product.numReviews})</span>
+            </div>
             <p>{product.price} Ar</p>
           </>
         )}

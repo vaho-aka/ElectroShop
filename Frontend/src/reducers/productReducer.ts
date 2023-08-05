@@ -13,9 +13,10 @@ const initialState: ProductState = {
     countInStock: 0,
     imageUrl: '',
     rating: 0,
-    numReview: 0,
+    numReviews: 0,
   },
   reviews: [],
+  message: '',
   loading: false,
   error: '',
 };

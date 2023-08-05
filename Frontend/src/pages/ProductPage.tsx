@@ -1,26 +1,25 @@
-import React, { useEffect, useState } from 'react';
-import { Link, useParams } from 'react-router-dom';
-import { RiAddLine, RiSubtractLine } from 'react-icons/ri';
+import React, { useEffect, useRef, useState } from 'react';
+import { useParams } from 'react-router-dom';
+import {
+  RiAddLine,
+  RiSubtractLine,
+  RiEmotionHappyLine,
+  RiInformationLine,
+} from 'react-icons/ri';
 import { cartActions } from '../reducers/cartReducer';
 import SkeletonLoading from '../components/SkeletonLoading';
 import LoadingSpinner from '../components/LoadingSpinner';
 import { useAppSelector, useAppDispatch } from '../hooks';
-import { getProductById } from '../actions/productActions';
+import { getProductById, rateProduct } from '../actions/productActions';
 import Rating from '../components/Rating';
-
-const ratingData = [
-  { star: 5, pourcentage: '70%' },
-  { star: 4, pourcentage: '17%' },
-  { star: 3, pourcentage: '8%' },
-  { star: 2, pourcentage: '4%' },
-  { star: 1, pourcentage: '1%' },
-];
 
 const ProductDetailPage: React.FC<{ loading?: boolean }> = ({ loading }) => {
   const { productId } = useParams();
   const dispatch = useAppDispatch();
-  const { product } = useAppSelector((state) => state.products);
+  const { product, reviews, error } = useAppSelector((state) => state.products);
   const [itemNumber, setItemNumber] = useState(1);
+  const commentRef = useRef<HTMLTextAreaElement>(null);
+  const ratingRef = useRef<HTMLSelectElement>(null);
 
   useEffect(() => {
     dispatch(getProductById(productId));
@@ -52,7 +51,18 @@ const ProductDetailPage: React.FC<{ loading?: boolean }> = ({ loading }) => {
   const submitRatingHandler = (e: React.FormEvent) => {
     e.preventDefault();
 
-    console.log('Evaluating...');
+    if (productId && commentRef.current && ratingRef.current) {
+      dispatch(
+        rateProduct(
+          productId,
+          commentRef.current.value,
+          ratingRef.current.value
+        )
+      );
+
+      commentRef.current.value = '';
+      ratingRef.current.value = '';
+    }
   };
 
   return (
@@ -156,24 +166,10 @@ const ProductDetailPage: React.FC<{ loading?: boolean }> = ({ loading }) => {
               Évaluation du produit
             </h3>
           </div>
-          <div className="flex flex-col gap-2 my-4">
-            <Rating value={3.5} />
-            <span>1 745 évaluations</span>
+          <div className="flex items-center gap-2 my-4">
+            {!loading && <Rating value={product.rating} />}
+            {!loading && <span>{product.numReviews} évaluations</span>}
           </div>
-          {ratingData.map(({ star, pourcentage }) => (
-            <div className="flex items-center" key={star}>
-              <span className="flex-1">{star} étoile</span>
-              <div className="w-2/4 h-5 mx-4 flex-auto bg-gray-200 rounded">
-                <div
-                  className="h-5 bg-yellow-300 rounded"
-                  style={{ width: pourcentage }}
-                ></div>
-              </div>
-              <span className="text-sm font-medium text-gray-500 flex-1">
-                {pourcentage}
-              </span>
-            </div>
-          ))}
           <div className="mt-4">
             <form
               onSubmit={submitRatingHandler}
@@ -184,12 +180,13 @@ const ProductDetailPage: React.FC<{ loading?: boolean }> = ({ loading }) => {
                 id=""
                 placeholder="Rédiger votre avis..."
                 rows={5}
+                ref={commentRef}
                 maxLength={255}
                 required
                 className="resize-none bg-gray-50 border focus:outline-none p-2"
               ></textarea>
               <label htmlFor="rating">Évaluer le produit :</label>
-              <select required id="rating">
+              <select ref={ratingRef} required id="rating">
                 <option value="">Choisir...</option>
                 <option value="1">1 - Mauvais</option>
                 <option value="2">2 - Équitable</option>
@@ -197,47 +194,50 @@ const ProductDetailPage: React.FC<{ loading?: boolean }> = ({ loading }) => {
                 <option value="4">4 - Très bien</option>
                 <option value="5">5 - Excellent</option>
               </select>
+              {error && (
+                <div className="flex text-red-500 gap-2 items-center">
+                  <RiInformationLine size={22} />
+                  <p>{error}</p>
+                </div>
+              )}
               <button className="w-full py-4 bg-slate-900  text-neutral-200 mt-4 active:translate-y-1  shadow-lg shadow-gray-300 active:shadow-none transition-all">
                 Valider
               </button>
             </form>
           </div>
         </div>
-        <div className="p-4 border-y sm:border rounded bg-white w-full">
+        <div className="p-4 border-y sm:border rounded bg-white w-full h-fit lg:h-full">
           <div className="border-b pb-2">
             <h3 className="text-3xl border-l-4 border-emerald-500 px-4">
               Avis des clients
             </h3>
           </div>
-          <ul className="overflow-y-scroll lg:max-h-[500px] scroll-bar">
-            {Array.from('vahoaka').map((id, i) => (
-              <li className="py-2" key={i}>
-                <div className="flex items-center gap-2">
-                  <Link to="/">
+          <ul className="overflow-y-scroll lg:max-h-[350px] scroll-bar h-full">
+            {!loading ? (
+              reviews.map((review) => (
+                <li className="py-2" key={review._id}>
+                  <div className="flex items-center gap-2">
                     <img
-                      src="/api/v1/uploads/users/avatar.jpg"
+                      src={review.user.imageUrl}
                       alt="user photo"
                       className="inline-block h-10 w-10 rounded-full ring-2 ring-white bg-slate-500"
                     />
-                  </Link>
-                  <div className="flex flex-col">
-                    <Link to="/" className="hover:underline">
-                      <span>Vahoaka</span>
-                    </Link>
-                    <span className="text-gray-500">il y a 1 mois</span>
+                    <div className="flex flex-col">
+                      <span>{review.user.name}</span>
+                    </div>
                   </div>
-                </div>
-                <div className="py-2">
-                  <Rating value={3} />
-                </div>
-                <p>
-                  Lorem ipsum dolor sit amet, consectetur adipisicing elit.
-                  Recusandae dicta cupiditate labore et eum facilis molestiae?
-                  Quaerat similique est, enim, impedit vitae culpa natus tempore
-                  beatae, laborum nulla rem aspernatur!
-                </p>
-              </li>
-            ))}
+                  <div className="py-2">
+                    <Rating value={review.rating} />
+                  </div>
+                  <p>{review.comment}</p>
+                </li>
+              ))
+            ) : (
+              <div className="flex gap-2 items-center justify-center h-full mt-4 lg:m-0">
+                <RiEmotionHappyLine size={32} />
+                <p>Soiyez le primier à evaluer!</p>
+              </div>
+            )}
           </ul>
         </div>
       </div>
