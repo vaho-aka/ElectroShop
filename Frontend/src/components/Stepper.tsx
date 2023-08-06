@@ -34,7 +34,7 @@ const Stepper: React.FC<{ children: ReactNode }> = ({ children }) => {
   };
 
   return (
-    <div className="w-full sm:min-w-[440px] max-w-[500px]">
+    <div className="w-full max-w-[500px]">
       <ul className="flex items-center justify-around relative">
         <li onClick={resetShippingAdressHandler}>
           <NavLink

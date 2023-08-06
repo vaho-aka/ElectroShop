@@ -42,6 +42,7 @@ const RegisterPage = () => {
         <div className="flex flex-col gap-2 mb-2">
           <label htmlFor="name">Nom d'utilisateur</label>
           <input
+            autoFocus
             type="text"
             required
             id="name"

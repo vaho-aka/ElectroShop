@@ -27,10 +27,10 @@ const cartReducer = createSlice({
   initialState,
   reducers: {
     ADD_ITEM(state, action: PayloadAction<CartItem>) {
-      const price = +action.payload.price.split(' ').join('');
+      const price = +action.payload.product.price.split(' ').join('');
 
       const itemIndex = state.items.findIndex(
-        (item) => item._id === action.payload._id
+        ({ product }) => product._id === action.payload.product._id
       );
 
       const existItem = state.items[itemIndex];
@@ -42,14 +42,14 @@ const cartReducer = createSlice({
       } else {
         state.totalAmount -= price * existItem.amount;
 
-        const amountFree = existItem.countInStock - existItem.amount;
+        const amountFree = existItem.product.countInStock - existItem.amount;
 
         const amount =
-          existItem.countInStock >= existItem.amount + action.payload.amount
+          existItem.product.countInStock >=
+          existItem.amount + action.payload.amount
             ? existItem.amount + action.payload.amount
             : existItem.amount + amountFree;
 
-        console.log(amount * price);
         const updateItem = {
           ...action.payload,
           amount,
@@ -62,12 +62,12 @@ const cartReducer = createSlice({
     },
     REMOVE_ITEM(state, action: PayloadAction<string>) {
       const itemIndex = state.items.findIndex(
-        (item) => item._id === action.payload
+        ({ product }) => product._id === action.payload
       );
 
       const itemToRemove = state.items[itemIndex];
 
-      const price = +itemToRemove.price.split(' ').join('');
+      const price = +itemToRemove.product.price.split(' ').join('');
       state.totalAmount -= price;
 
       const updatedItem = {
@@ -79,7 +79,7 @@ const cartReducer = createSlice({
 
       if (updatedItem.amount < 1) {
         state.items = state.items.filter(
-          (item) => item._id !== updatedItem._id
+          ({ product }) => product._id !== updatedItem.product._id
         );
         // state.totalAmount -= price;
       } else {
@@ -98,6 +98,16 @@ const cartReducer = createSlice({
     ADD_SHIPPING_ADDRESS(state, action: PayloadAction<ShippingAddressType>) {
       state.shippingAddress = action.payload;
       localStorage.setItem('electroshop-user-cart', JSON.stringify(state));
+    },
+    RESET_CART_AND_SHIPPING_ADDRESS(state) {
+      state.shippingAddress = {
+        address: '',
+        city: '',
+        neighbour: '',
+        paymentMethod: '',
+        phoneNumber: '',
+      };
+      state.items = [];
     },
   },
 });

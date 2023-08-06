@@ -1,22 +1,43 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import Stepper from '../components/Stepper';
-import { useAppSelector } from '../hooks';
+import { useAppDispatch, useAppSelector } from '../hooks';
 import ConfirmModal from '../components/ConfirmModal';
+import { placeOrder } from '../actions/orderActions';
+import { useNavigate } from 'react-router-dom';
 
 const PlaceOrderPage = () => {
   const [showModal, setShowModal] = useState(false);
+  const dispatch = useAppDispatch();
+  const navigate = useNavigate();
   const { items, totalAmount, shippingAddress } = useAppSelector(
     (state) => state.cart
   );
+  const { orderItems } = useAppSelector((state) => state.order);
+  const { userLoggedIn } = useAppSelector((state) => state.user);
 
   const confirmModalHandler = () => {
     setShowModal((showModal) => !showModal);
   };
 
+  useEffect(() => {
+    if (orderItems.length) navigate(`/user/$${userLoggedIn._id}`);
+  }, [orderItems]);
+
+  const placeOrderHandler = () => {
+    console.log('order placed');
+    const order: any = {
+      items,
+      shippingAddress,
+      totalPrice: totalAmount,
+    };
+
+    dispatch(placeOrder(order));
+  };
+
   return (
     <Stepper>
       {showModal && <ConfirmModal onClose={confirmModalHandler} />}
-      <div className="sm:border rounded p-4 sm:min-w-[400px]">
+      <div className="sm:border rounded p-4 sm:min-w-[400px] sm:bg-white">
         <div className="flex border-b-2 pb-2">
           <div className="flex flex-col gap-1 w-fit mr-4">
             <span>Nom</span>
@@ -32,19 +53,17 @@ const PlaceOrderPage = () => {
           </div>
         </div>
         <ul className="mt-4">
-          {items.map((item) => (
+          {items.map(({ product, amount }) => (
             <li
-              key={item._id}
+              key={product._id}
               className="bg-slate-300 rounded p-2 my-2 flex items-center justify-between"
             >
               <div>
-                <span>{item.name}</span>
-                <span className="bg-white px-1 rounded ml-4">
-                  x {item.amount}
-                </span>
+                <span>{product.name}</span>
+                <span className="bg-white px-1 rounded ml-4">x {amount}</span>
               </div>
               <span className="min-w-fit">
-                {item.amount * +item.price.split(' ').join('')} Ar
+                {amount * +product.price.split(' ').join('')} Ar
               </span>
             </li>
           ))}
@@ -60,7 +79,10 @@ const PlaceOrderPage = () => {
           >
             Annuler
           </button>
-          <button className="py-1 px-6 bg-emerald-600 rounded text-white">
+          <button
+            className="py-1 px-6 bg-emerald-600 rounded text-white"
+            onClick={placeOrderHandler}
+          >
             Valider
           </button>
         </div>

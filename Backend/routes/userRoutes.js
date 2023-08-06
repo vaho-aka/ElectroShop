@@ -1,6 +1,4 @@
 import express from 'express';
-const router = express.Router();
-
 import { protect, admin } from '../middleware/authMiddleware.js';
 import {
   logIn,
@@ -13,6 +11,8 @@ import {
   deleteUser,
   updateUser,
 } from '../controllers/userController.js';
+
+const router = express.Router();
 
 router
   .route('/profil')

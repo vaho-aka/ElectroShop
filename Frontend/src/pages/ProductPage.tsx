@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import {
   RiAddLine,
   RiSubtractLine,
@@ -12,11 +12,15 @@ import LoadingSpinner from '../components/LoadingSpinner';
 import { useAppSelector, useAppDispatch } from '../hooks';
 import { getProductById, rateProduct } from '../actions/productActions';
 import Rating from '../components/Rating';
+import { CartItem } from '../interface/interfaces';
 
 const ProductDetailPage: React.FC<{ loading?: boolean }> = ({ loading }) => {
   const { productId } = useParams();
+  const { pathname } = useLocation();
+  const navigate = useNavigate();
   const dispatch = useAppDispatch();
   const { product, reviews, error } = useAppSelector((state) => state.products);
+  const { userLoggedIn } = useAppSelector((state) => state.user);
   const [itemNumber, setItemNumber] = useState(1);
   const commentRef = useRef<HTMLTextAreaElement>(null);
   const ratingRef = useRef<HTMLSelectElement>(null);
@@ -28,7 +32,7 @@ const ProductDetailPage: React.FC<{ loading?: boolean }> = ({ loading }) => {
   const addToCartHandler = (e: React.FormEvent) => {
     e.preventDefault();
 
-    const item = { ...product, amount: itemNumber };
+    const item: CartItem = { product, amount: itemNumber };
     dispatch(cartActions.ADD_ITEM(item));
     setItemNumber(1);
   };
@@ -63,6 +67,10 @@ const ProductDetailPage: React.FC<{ loading?: boolean }> = ({ loading }) => {
       commentRef.current.value = '';
       ratingRef.current.value = '';
     }
+  };
+
+  const redirectHandler = () => {
+    navigate('/login?redirect=' + pathname);
   };
 
   return (
@@ -200,8 +208,12 @@ const ProductDetailPage: React.FC<{ loading?: boolean }> = ({ loading }) => {
                   <p>{error}</p>
                 </div>
               )}
-              <button className="w-full py-4 bg-slate-900  text-neutral-200 mt-4 active:translate-y-1  shadow-lg shadow-gray-300 active:shadow-none transition-all">
-                Valider
+              <button
+                type="submit"
+                className="w-full py-4 bg-slate-900  text-neutral-200 mt-4 active:translate-y-1  shadow-lg shadow-gray-300 active:shadow-none transition-all"
+                onClick={userLoggedIn.name ? () => '' : redirectHandler}
+              >
+                {userLoggedIn.name ? 'Valider' : 'Se connecter'}
               </button>
             </form>
           </div>
@@ -213,7 +225,7 @@ const ProductDetailPage: React.FC<{ loading?: boolean }> = ({ loading }) => {
             </h3>
           </div>
           <ul className="overflow-y-scroll lg:max-h-[350px] scroll-bar h-full">
-            {!loading ? (
+            {!loading && reviews.length ? (
               reviews.map((review) => (
                 <li className="py-2" key={review._id}>
                   <div className="flex items-center gap-2">

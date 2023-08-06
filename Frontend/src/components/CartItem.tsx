@@ -1,18 +1,21 @@
 import React, { useEffect, useState } from 'react';
 import { Plus, Minus } from '@phosphor-icons/react';
 import { cartActions } from '../reducers/cartReducer';
-import { CartItem as Item } from '../interface/interfaces';
+import { Item } from '../interface/interfaces';
 import { useAppDispatch } from '../hooks.js';
 
-const CartItem: React.FC<{ item: Item }> = ({ item }) => {
+const CartItem: React.FC<{ item: Item; amount: number }> = ({
+  item,
+  amount,
+}) => {
   const dispatch = useAppDispatch();
-  const [itemNumber, setItemNumber] = useState(item.amount);
+  const [itemNumber, setItemNumber] = useState(amount);
 
   const inscreaseItemNumber = () => {
     if (item.countInStock > itemNumber) {
       setItemNumber((itemNumber) => itemNumber + 1);
 
-      const product = { ...item, amount: 1 };
+      const product = { product: item, amount: 1 };
       dispatch(cartActions.ADD_ITEM(product));
     }
   };

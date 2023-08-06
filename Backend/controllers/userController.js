@@ -4,8 +4,8 @@ import generateToken from '../utils/generateToken.js';
 import User from '../models/userSchema.js';
 import { sendCookie } from '../utils/sendCookie.js';
 
-// ** @desc Auth user & get token
-// ** @route POST /api/v1/user/login
+// ** @desc   Auth user & get token
+// ** @route  POST /api/v1/user/login
 // ** @access Public
 export const logIn = asyncHandler(async (req, res) => {
   const { email, password } = req.body;
@@ -30,8 +30,8 @@ export const logIn = asyncHandler(async (req, res) => {
   }
 });
 
-// ** @desc Log out user
-// ** @route POST /api/v1/user/logout
+// ** @desc   Log out user
+// ** @route  POST /api/v1/user/logout
 // ** @access Private
 export const logOut = asyncHandler(async (req, res) => {
   res.cookie('jwt', null, {

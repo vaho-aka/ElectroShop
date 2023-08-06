@@ -27,7 +27,8 @@ export interface Review {
   comment: string;
 }
 
-export interface CartItem extends Item {
+export interface CartItem {
+  product: Item;
   amount: number;
 }
 
@@ -51,8 +52,15 @@ export interface State {
   error: string;
 }
 
+export interface OrderItem {
+  qty: number;
+  image: string;
+  price: string;
+  product: Item;
+}
+
 export interface OrderState extends State {
-  orderDetails: CartItem | any;
+  orderItems: OrderItem[];
 }
 
 export interface ProductState extends State {

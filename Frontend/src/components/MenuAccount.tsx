@@ -4,7 +4,16 @@ import { Menu, Transition } from '@headlessui/react';
 import { Link } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '../hooks';
 import { logout } from '../actions/userActions';
-import { RiArrowDropDownLine, RiMenuLine } from 'react-icons/ri';
+import {
+  RiArrowDropDownLine,
+  RiMenuLine,
+  RiLogoutBoxLine,
+  RiUserLine,
+  RiFunctionLine,
+} from 'react-icons/ri';
+
+const classesLink =
+  'hover:bg-slate-600 flex items-center gap-1 rounded-md py-2 px-4';
 
 const MenuAccount = () => {
   const dispatch = useAppDispatch();
@@ -33,7 +42,7 @@ const MenuAccount = () => {
             <img
               src={userLoggedIn.imageUrl}
               alt="user photo"
-              className="inline-block h-10 w-10 rounded-full ring-2 ring-white"
+              className="h-10 w-10 rounded-full ring-2 hidden sm:inline-block ring-white"
             />
           </div>
         ) : (
@@ -72,30 +81,27 @@ const MenuAccount = () => {
           ) : (
             <>
               <Menu.Item>
-                <Link
-                  to={`/user/${userLoggedIn._id}`}
-                  className="hover:bg-slate-600 rounded-md py-2 px-4 "
-                >
-                  Mon profile
+                <Link to={`/user/${userLoggedIn._id}`} className={classesLink}>
+                  <RiUserLine />
+                  <span>Mon profile</span>
                 </Link>
               </Menu.Item>
               {userLoggedIn.isAdmin && (
                 <Menu.Item>
-                  <Link
-                    to="/admin"
-                    className="hover:bg-slate-600 rounded-md py-2 px-4 "
-                  >
-                    Administration
+                  <Link to="/admin" className={classesLink}>
+                    <RiFunctionLine />
+                    <span>Administration</span>
                   </Link>
                 </Menu.Item>
               )}
               <Menu.Item>
-                <span
+                <div
                   onClick={logoutHandler}
-                  className="hover:bg-slate-600 rounded-md py-2 px-4  cursor-pointer"
+                  className="hover:bg-red-500 hover:bg-opacity-20 text-red-500 rounded-md py-2 px-4 flex items-center gap-1 transition-all cursor-pointer"
                 >
-                  Déconnexion
-                </span>
+                  <RiLogoutBoxLine />
+                  <span>Déconnexion</span>
+                </div>
               </Menu.Item>
             </>
           )}

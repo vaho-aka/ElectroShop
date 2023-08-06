@@ -30,8 +30,8 @@ const Cart = () => {
         <span>{totalAmount} Ar</span>
       </div>
       <div className="my-4 p-1 overflow-y-scroll max-h-[20rem]">
-        {items.map((item) => (
-          <CartItem item={item} key={item._id} />
+        {items.map(({ product, amount }) => (
+          <CartItem item={product} key={product._id} amount={amount} />
         ))}
       </div>
       <div className="flex items-center justify-end gap-5">

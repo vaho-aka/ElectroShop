@@ -3,22 +3,13 @@ import Modal from './Modal';
 import { useNavigate } from 'react-router-dom';
 import { useAppDispatch } from '../hooks';
 import { cartActions } from '../reducers/cartReducer';
-import { ShippingAddress } from '../interface/interfaces';
 
 const ConfirmModal: React.FC<{ onClose: () => void }> = ({ onClose }) => {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
 
   const abortHandler = () => {
-    const shippingAddress: ShippingAddress = {
-      address: '',
-      city: '',
-      neighbour: '',
-      paymentMethod: '',
-      phoneNumber: '',
-    };
-
-    dispatch(cartActions.ADD_SHIPPING_ADDRESS(shippingAddress));
+    dispatch(cartActions.RESET_CART_AND_SHIPPING_ADDRESS());
 
     onClose();
     navigate('/');

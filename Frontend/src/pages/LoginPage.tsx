@@ -52,6 +52,7 @@ const LoginPage = () => {
             id="email"
             placeholder="votre_email@example.com"
             required
+            autoFocus
             className="border p-2 focus:outline-none rounded h-12 bg-white sm:bg-gray-50"
             {...register('email', {
               required: 'adresse e-mail est obligatoire',

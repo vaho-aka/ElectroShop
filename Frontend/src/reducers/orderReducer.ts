@@ -2,7 +2,7 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { CartItem, OrderState } from '../interface/interfaces';
 
 const initialState: OrderState = {
-  orderDetails: {},
+  orderItems: [],
   loading: false,
   error: '',
 };
@@ -14,9 +14,9 @@ const orderReducer = createSlice({
     GET_ORDER_DETAILS_REQUEST(state) {
       state.loading = true;
     },
-    GET_ORDER_DETAILS_SUCCESS(state, action: PayloadAction<CartItem>) {
+    GET_ORDER_DETAILS_SUCCESS(state, action: PayloadAction<any>) {
       state.loading = false;
-      state.orderDetails = action.payload;
+      state.orderItems = action.payload;
       state.error = '';
     },
     GET_ORDER_DETAILS_FAIL(state, action: PayloadAction<string>) {

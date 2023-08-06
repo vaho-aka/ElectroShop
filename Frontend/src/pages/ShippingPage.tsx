@@ -5,6 +5,9 @@ import { ShippingAddressType } from '../interface/interfaces';
 import { useNavigate } from 'react-router-dom';
 import Stepper from '../components/Stepper';
 
+const classesInput =
+  'border p-2 focus:outline-none rounded h-12 bg-white sm:bg-gray-50 ';
+
 const ShippingPage = () => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
@@ -36,7 +39,7 @@ const ShippingPage = () => {
 
   return (
     <Stepper>
-      <div className="p-4 border rounded sm:min-w-[400px]">
+      <div className="sm:px-4 py-4 sm:border rounded sm:bg-white">
         <h3 className="text-2xl w-full text-center mb-4">
           Adresse de livraison
         </h3>
@@ -44,12 +47,13 @@ const ShippingPage = () => {
           <div className="flex flex-col gap-2 mb-2">
             <label htmlFor="address">Adresse</label>
             <input
+              autoFocus
               type="text"
               id="address"
               placeholder="Entrer votre adresse"
               required
               ref={addressRef}
-              className="border p-2 focus:outline-none rounded h-12"
+              className={classesInput}
             />
           </div>
           <div className="flex flex-col gap-2 mb-2">
@@ -60,7 +64,7 @@ const ShippingPage = () => {
               placeholder="Entrer votre quartier"
               required
               ref={neighbourRef}
-              className="border p-2 focus:outline-none rounded h-12"
+              className={classesInput}
             />
           </div>
           <div className="flex flex-col gap-2 mb-2">
@@ -71,12 +75,12 @@ const ShippingPage = () => {
               placeholder="Entrer votre ville"
               required
               ref={cityRef}
-              className="border p-2 focus:outline-none rounded h-12"
+              className={classesInput}
             />
           </div>
           <div className="flex flex-col gap-2 mb-2">
             <label htmlFor="phone">Numéro de téléphone</label>
-            <div className="border p-2 rounded flex items-center gap-2 h-12 bg-white">
+            <div className="border p-2 rounded flex items-center gap-2 h-12 bg-white sm:bg-gray-50">
               <span className="pr-2 border-r-2">🇲🇬 +261</span>
               <input
                 type="text"
