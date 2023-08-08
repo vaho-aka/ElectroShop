@@ -61,6 +61,17 @@ export interface OrderItem {
 
 export interface OrderState extends State {
   orderItems: OrderItem[];
+  ordersList: {
+    orderItems: OrderItem[];
+    shippingAddress: ShippingAddressType;
+    paymentMethod: string;
+    totalPrice: number;
+    isPaid: boolean;
+    isDelivered: boolean;
+    _id: string;
+    user: User;
+    createdAt: string;
+  }[];
 }
 
 export interface ProductState extends State {

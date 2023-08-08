@@ -1,15 +1,23 @@
 import React, { useEffect, useState, useRef } from 'react';
 import { useAppDispatch, useAppSelector } from '../hooks';
 import { updateUserProfile } from '../actions/userActions';
+import { getUserOrders } from '../actions/orderActions';
+import {
+  RiCheckboxCircleFill,
+  RiCloseCircleFill,
+  RiEmotionHappyLine,
+} from 'react-icons/ri';
+import { Link } from 'react-router-dom';
 
 const inputClasses =
   'border bg-gray-50 p-2 focus:outline-none rounded h-12 sm:bg-gray-50 bg-white';
 const tableClasses =
-  'bg-background p-2 grid lg:grid-cols-5 md:grid-cols-4 sm:grid-cols-3 grid-cols-2 items-center justify-between';
+  'bg-background px-2 grid xl:grid-cols-6 lg:grid-cols-5 md:grid-cols-6 sm:grid-cols-5 grid-cols-3 items-center justify-between';
 
 const ProfilPage = () => {
   const dispatch = useAppDispatch();
   const { userLoggedIn } = useAppSelector((state) => state.user);
+  const { ordersList } = useAppSelector((state) => state.order);
   const [showPassword, setShowPassword] = useState(false);
   const [selectedFile, setSelectedFile] = useState<File>();
   const [isModifyed, setIsModifyed] = useState(false);
@@ -18,6 +26,10 @@ const ProfilPage = () => {
   const [email, setEmail] = useState(userLoggedIn.email);
   const [password, setPassword] = useState('');
   const inputFileRef = useRef<HTMLInputElement | null>(null);
+
+  useEffect(() => {
+    dispatch(getUserOrders());
+  }, []);
 
   useEffect(() => {
     setUserImage(userLoggedIn.imageUrl);
@@ -144,28 +156,47 @@ const ProfilPage = () => {
             Mes commandes
           </h1>
         </div>
-        <div className="w-full">
-          <div
-            className={`${tableClasses} my-4 bg-slate-400 text-white rounded-t-md`}
-          >
-            <span>ID</span>
-            <span className="hidden lg:block">Date</span>
-            <span className="hidden sm:block">Prix total (Ar)</span>
-            <span className="sm:text-left text-right">Payé</span>
-            <span className="hidden md:block">Livraison</span>
+        {ordersList.length ? (
+          <div className="w-full border-x rounded-md mt-4">
+            <div
+              className={`${tableClasses} py-2 bg-slate-400 text-white rounded-t-md`}
+            >
+              <span className="col-span-2">ID</span>
+              <span className="hidden md:block lg:hidden xl:block">Date</span>
+              <span className="hidden sm:block">Prix total (Ar)</span>
+              <span className="hidden sm:block">Payé</span>
+              <span className="hidden md:block"></span>
+            </div>
+            <ul className="bg-white">
+              {ordersList.map((order) => (
+                <li key={order._id} className={`${tableClasses} border-b`}>
+                  <span className="col-span-2">{order._id}</span>
+                  <span className="hidden md:block lg:hidden xl:block">
+                    {order.createdAt.substring(0, 10)}
+                  </span>
+                  <span className="hidden sm:block">{order.totalPrice}</span>
+                  <div className="text-2xl hidden sm:block">
+                    {order.isPaid ? (
+                      <RiCheckboxCircleFill className="text-emerald-600" />
+                    ) : (
+                      <RiCloseCircleFill className="text-red-500" />
+                    )}
+                  </div>
+                  <Link to={`/order/${order._id}`}>
+                    <button className="bg-slate-800 text-white w-full py-1 my-1">
+                      Détails
+                    </button>
+                  </Link>
+                </li>
+              ))}
+            </ul>
           </div>
-          <ul className="bg-white">
-            {Array.from('vahoaka irna rak').map((nm, i) => (
-              <li key={i} className={`${tableClasses} border-b`}>
-                <span>sdf2s3f5183fs</span>
-                <span className="hidden lg:block">2023/08/01</span>
-                <span className="hidden sm:block">3 240 000</span>
-                <span className="sm:text-left text-right">Payé</span>
-                <span className="hidden md:block">En cours</span>
-              </li>
-            ))}
-          </ul>
-        </div>
+        ) : (
+          <div className="flex gap-2 items-center justify-center h-full mb-4">
+            <RiEmotionHappyLine size={32} />
+            <p>Vous n'avez encore rien commandé</p>
+          </div>
+        )}
       </div>
     </div>
   );

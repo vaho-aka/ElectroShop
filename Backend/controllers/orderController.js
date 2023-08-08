@@ -31,7 +31,7 @@ export const getUserOrders = asyncHandler(async (req, res) => {
 // ** @route   GET /api/v1/orders/:id
 // ** @access  Private
 export const getOneOrder = asyncHandler(async (req, res) => {
-  const order = await Order.findById(req.user._id);
+  const order = await Order.findById(req.params.id);
 
   if (!order) {
     res.status(404);

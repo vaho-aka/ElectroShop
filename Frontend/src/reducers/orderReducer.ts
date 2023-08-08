@@ -3,6 +3,7 @@ import { CartItem, OrderState } from '../interface/interfaces';
 
 const initialState: OrderState = {
   orderItems: [],
+  ordersList: [],
   loading: false,
   error: '',
 };
@@ -17,6 +18,11 @@ const orderReducer = createSlice({
     GET_ORDER_DETAILS_SUCCESS(state, action: PayloadAction<any>) {
       state.loading = false;
       state.orderItems = action.payload;
+      state.error = '';
+    },
+    GET_ORDER_LIST_SUCCESS(state, action: PayloadAction<any>) {
+      state.loading = false;
+      state.ordersList = action.payload;
       state.error = '';
     },
     GET_ORDER_DETAILS_FAIL(state, action: PayloadAction<string>) {
