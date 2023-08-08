@@ -1,4 +1,4 @@
-import { Fragment } from 'react';
+import { Fragment, useEffect, useState } from 'react';
 import { Menu, Transition } from '@headlessui/react';
 
 import { Link } from 'react-router-dom';
@@ -18,10 +18,15 @@ const classesLink =
 const MenuAccount = () => {
   const dispatch = useAppDispatch();
   const { userLoggedIn } = useAppSelector((state) => state.user);
+  const [userImage, setUserImage] = useState(userLoggedIn.imageUrl);
 
   const logoutHandler = () => {
     dispatch(logout());
   };
+
+  useEffect(() => {
+    setUserImage(userLoggedIn.imageUrl);
+  }, [userLoggedIn]);
 
   return (
     <Menu
@@ -40,7 +45,7 @@ const MenuAccount = () => {
             <span>{userLoggedIn.name}</span>
             <RiArrowDropDownLine size={22} />
             <img
-              src={userLoggedIn.imageUrl}
+              src={userImage}
               alt="user photo"
               className="h-10 w-10 rounded-full ring-2 hidden sm:inline-block ring-white"
             />

@@ -1,5 +1,6 @@
-import React, { useEffect, useState } from 'react';
-import { useAppSelector } from '../hooks';
+import React, { useEffect, useState, useRef } from 'react';
+import { useAppDispatch, useAppSelector } from '../hooks';
+import { updateUserProfile } from '../actions/userActions';
 
 const inputClasses =
   'border bg-gray-50 p-2 focus:outline-none rounded h-12 sm:bg-gray-50 bg-white';
@@ -7,59 +8,85 @@ const tableClasses =
   'bg-background p-2 grid lg:grid-cols-5 md:grid-cols-4 sm:grid-cols-3 grid-cols-2 items-center justify-between';
 
 const ProfilPage = () => {
+  const dispatch = useAppDispatch();
   const { userLoggedIn } = useAppSelector((state) => state.user);
-
   const [showPassword, setShowPassword] = useState(false);
-  const [password, setPassword] = useState('');
-  const [email, setEmail] = useState(userLoggedIn.email);
+  const [selectedFile, setSelectedFile] = useState<File>();
+  const [isModifyed, setIsModifyed] = useState(false);
+  const [userImage, setUserImage] = useState(userLoggedIn.imageUrl);
   const [userName, setUserName] = useState(userLoggedIn.name);
-  const [activeBtn, setActiveBtn] = useState(false);
+  const [email, setEmail] = useState(userLoggedIn.email);
+  const [password, setPassword] = useState('');
+  const inputFileRef = useRef<HTMLInputElement | null>(null);
+
+  useEffect(() => {
+    setUserImage(userLoggedIn.imageUrl);
+  }, [userLoggedIn]);
+
+  useEffect(() => {
+    if (
+      userName !== userLoggedIn.name ||
+      email !== userLoggedIn.email ||
+      password ||
+      selectedFile
+    ) {
+      setIsModifyed(true);
+    } else setIsModifyed(false);
+  }, [password, userLoggedIn, userName, email, selectedFile]);
 
   const modifyProfilHandler = (e: React.FormEvent) => {
     e.preventDefault();
 
-    console.log('sending...');
-  };
-
-  const showPasswordHandler = () => {
-    setShowPassword((showPassword) => !showPassword);
-  };
-
-  useEffect(() => {
-    setActiveBtn(
-      email !== userLoggedIn.email || userName !== userLoggedIn.name || password
-        ? true
-        : false
+    dispatch(
+      updateUserProfile(
+        userName,
+        email,
+        password && password,
+        selectedFile && selectedFile
+      )
     );
-  }, [userLoggedIn, userName, email, password]);
+
+    if (inputFileRef.current) {
+      inputFileRef.current.value = '';
+    }
+  };
+
+  const showPasswordHandler = () =>
+    setShowPassword((prevShowPassword) => !prevShowPassword);
+
+  const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files && e.target.files[0];
+
+    if (file) {
+      setSelectedFile(file);
+    }
+  };
 
   return (
-    <div className="grid lg:grid-cols-3 grid-cols-1 p-4 w-full">
+    <div className="grid lg:grid-cols-3 gap-y-10 lg:gap-0 grid-cols-1 p-4 w-full">
       <div className="md:col-span-1 max-w-[400px] m-auto lg:m-0">
         <div>
-          <h1 className="text-2xl">Profile d'utilisateur</h1>
+          <h1 className="text-2xl border-l-4 border-emerald-500 px-4">
+            Profile d'utilisateur
+          </h1>
         </div>
         <form
           className="w-full sm:border-2 sm:p-4 my-4 rounded-md sm:bg-white"
           onSubmit={modifyProfilHandler}
         >
-          <div className="h-32 w-32 bg-slate-500 mb-4 rounded-full">
-            <img
-              src={userLoggedIn.imageUrl}
-              className="h-full w-full"
-              alt="user photo"
-            />
-          </div>
+          <img
+            src={userImage}
+            className="sm:h-32 sm:w-32 mb-4 rounded-full"
+            alt="user photo"
+          />
           <div className="flex flex-col gap-2 mb-2">
             <label htmlFor="name">Nom d'utilisateur</label>
             <input
               type="text"
               id="name"
               value={userName}
-              onChange={(e: React.FormEvent<HTMLInputElement>) =>
-                setUserName(e.currentTarget.value)
-              }
               className={inputClasses}
+              onChange={(e) => setUserName(e.target.value)}
             />
           </div>
           <div className="flex flex-col gap-2 mb-2">
@@ -68,20 +95,15 @@ const ProfilPage = () => {
               type="email"
               value={email}
               id="email"
-              placeholder="votre_email@example.com"
-              onChange={(e: React.FormEvent<HTMLInputElement>) =>
-                setEmail(e.currentTarget.value)
-              }
+              onChange={(e) => setEmail(e.target.value)}
               className={inputClasses}
             />
           </div>
           <div className="flex flex-col gap-2 mb-2">
             <label htmlFor="password">Mot de passe</label>
             <input
-              onChange={(e: React.FormEvent<HTMLInputElement>) =>
-                setPassword(e.currentTarget.value)
-              }
               id="password"
+              onChange={(e) => setPassword(e.target.value)}
               placeholder="votre mot de passe"
               type={!showPassword ? 'password' : 'text'}
               className={inputClasses}
@@ -96,20 +118,31 @@ const ProfilPage = () => {
               <label htmlFor="checkbox">Afficher mot de passe</label>
             </div>
           </div>
+          <div>
+            <label htmlFor="upload">Télécharger une image</label>
+            <input
+              id="upload"
+              accept="image/*"
+              type="file"
+              ref={inputFileRef}
+              onChange={handleImageChange}
+              className="w-full"
+            />
+          </div>
           <button
-            disabled={activeBtn ? false : true}
             type="submit"
-            className={`${
-              activeBtn ? '' : 'cursor-not-allowed bg-gray-500'
-            } w-full py-2 bg-slate-900  text-neutral-200 mt-4`}
+            disabled={!isModifyed ? true : false}
+            className="active:translate-y-1 disabled:bg-neutral-500 disabled:cursor-not-allowed transition-all shadow-lg shadow-gray-300 active:shadow-none w-full py-2 bg-slate-900  text-neutral-200 mt-4"
           >
-            Méttre à jour
+            Méttre à jour mon profil
           </button>
         </form>
       </div>
       <div className="md:col-span-2">
         <div>
-          <h1 className="text-2xl">Mes commandes</h1>
+          <h1 className="text-2xl border-l-4 border-emerald-500 px-4">
+            Mes commandes
+          </h1>
         </div>
         <div className="w-full">
           <div

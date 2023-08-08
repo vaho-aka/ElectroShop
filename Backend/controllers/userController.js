@@ -93,17 +93,20 @@ export const getUserProfile = asyncHandler(async (req, res) => {
 // ** @route  PUT /api/users/profil
 // ** @access Private
 export const updateUserProfile = asyncHandler(async (req, res) => {
-  req.user.name = req.body.name || req.user.name;
-  req.user.email = req.body.email || req.user.email;
-  req.user.imageUrl = req.body.image ? req.body.image : req.user.imageUrl;
+  const user = await User.findById(req.user._id);
+
+  user.name = req.body.name || user.name;
+  user.email = req.body.email || user.email;
+
+  if (req.file) user.imageUrl = `/api/v1/uploads/users/${req.file.filename}`;
 
   if (req.body.password) {
-    req.user.password = req.body.password;
+    user.password = req.body.password;
   }
 
   if (req.file) req.user.imageUrl = req.file.path;
 
-  const updatedUser = await req.user.save();
+  const updatedUser = await user.save();
 
   res.json({
     _id: updatedUser._id,

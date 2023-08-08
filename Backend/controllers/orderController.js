@@ -17,3 +17,26 @@ export const addOrderItems = asyncHandler(async (req, res) => {
 
   res.status(201).json(order);
 });
+
+// ** @desc    Fetch all user's order
+// ** @route   GET /api/v1/orders
+// ** @access  Private
+export const getUserOrders = asyncHandler(async (req, res) => {
+  const orders = await Order.find({ user: req.user._id });
+
+  res.status(200).json(orders);
+});
+
+// ** @desc    Fetch a order by ID
+// ** @route   GET /api/v1/orders/:id
+// ** @access  Private
+export const getOneOrder = asyncHandler(async (req, res) => {
+  const order = await Order.findById(req.user._id);
+
+  if (!order) {
+    res.status(404);
+    throw new Error("La commande que vous chercher n'existe pas");
+  }
+
+  res.status(200).json(order);
+});

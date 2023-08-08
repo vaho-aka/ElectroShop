@@ -12,7 +12,7 @@ import LoadingSpinner from '../components/LoadingSpinner';
 import { useAppSelector, useAppDispatch } from '../hooks';
 import { getProductById, rateProduct } from '../actions/productActions';
 import Rating from '../components/Rating';
-import { CartItem } from '../interface/interfaces';
+import { CartItem, Review } from '../interface/interfaces';
 
 const ProductDetailPage: React.FC<{ loading?: boolean }> = ({ loading }) => {
   const { productId } = useParams();
@@ -226,7 +226,7 @@ const ProductDetailPage: React.FC<{ loading?: boolean }> = ({ loading }) => {
           </div>
           <ul className="overflow-y-scroll lg:max-h-[350px] scroll-bar h-full">
             {!loading && reviews.length ? (
-              reviews.map((review) => (
+              reviews.map((review: Review) => (
                 <li className="py-2" key={review._id}>
                   <div className="flex items-center gap-2">
                     <img

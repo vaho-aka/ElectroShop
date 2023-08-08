@@ -11,13 +11,15 @@ import {
   deleteUser,
   updateUser,
 } from '../controllers/userController.js';
+import { resizeUserImage } from './uploadRoutes.js';
+import { userUpload } from '../controllers/uploadController.js';
 
 const router = express.Router();
 
 router
   .route('/profil')
   .get(protect, getUserProfile)
-  .put(protect, updateUserProfile);
+  .put(protect, userUpload.single('image'), resizeUserImage, updateUserProfile);
 
 router.post('/login', logIn);
 router.post('/signup', signUp);

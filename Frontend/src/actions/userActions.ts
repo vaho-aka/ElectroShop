@@ -83,3 +83,35 @@ export const register =
       dispatch(userActions.GET_USER_FAIL(message));
     }
   };
+
+export const updateUserProfile =
+  (name: string, email: string, password?: string, image?: File): AppThunk =>
+  async (dispatch, getState) => {
+    try {
+      dispatch(userActions.GET_USER_REQUEST());
+
+      const { userLoggedIn } = getState().user;
+
+      const config = {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+          Authorization: 'Bearer ' + userLoggedIn.token,
+        },
+      };
+
+      const { data } = await axios.put<User>(
+        '/api/v1/user/profil',
+        { name, email, password, image },
+        config
+      );
+      dispatch(userActions.GET_USER_SUCCESS(data));
+      localStorage.setItem('electroshop-user-info', JSON.stringify(data));
+    } catch (error: any) {
+      const message =
+        error.response && error.response.data.message
+          ? error.response.data.message
+          : error.message;
+
+      dispatch(userActions.GET_USER_FAIL(message));
+    }
+  };
