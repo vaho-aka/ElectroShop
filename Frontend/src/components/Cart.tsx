@@ -3,6 +3,7 @@ import CartItem from './CartItem.jsx';
 import { cartActions } from '../reducers/cartReducer.js';
 import { useNavigate } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '../hooks.js';
+import { RiEmotionHappyLine } from 'react-icons/ri';
 
 const Cart = () => {
   const dispatch = useAppDispatch();
@@ -30,9 +31,16 @@ const Cart = () => {
         <span>{totalAmount} Ar</span>
       </div>
       <div className="my-4 p-1 overflow-y-scroll max-h-[20rem]">
-        {items.map(({ product, amount }) => (
-          <CartItem item={product} key={product._id} amount={amount} />
-        ))}
+        {items[0] ? (
+          items.map(({ product, amount }) => (
+            <CartItem item={product} key={product._id} amount={amount} />
+          ))
+        ) : (
+          <div className="flex flex-col gap-2 items-center text-emerald-500">
+            <RiEmotionHappyLine size={36} />
+            <span>Commencer par visiter nos produits !</span>
+          </div>
+        )}
       </div>
       <div className="flex items-center justify-end gap-5">
         <button

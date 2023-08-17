@@ -6,6 +6,7 @@ import {
   RiCheckboxCircleFill,
   RiCloseCircleFill,
   RiEmotionHappyLine,
+  RiUploadCloud2Line,
 } from 'react-icons/ri';
 import { Link } from 'react-router-dom';
 
@@ -21,7 +22,7 @@ const ProfilPage = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [selectedFile, setSelectedFile] = useState<File>();
   const [isModifyed, setIsModifyed] = useState(false);
-  const [userImage, setUserImage] = useState(userLoggedIn.imageUrl);
+  const [userImage, setUserImage] = useState('');
   const [userName, setUserName] = useState(userLoggedIn.name);
   const [email, setEmail] = useState(userLoggedIn.email);
   const [password, setPassword] = useState('');
@@ -86,11 +87,23 @@ const ProfilPage = () => {
           className="w-full sm:border-2 sm:p-4 my-4 rounded-md sm:bg-white"
           onSubmit={modifyProfilHandler}
         >
-          <img
-            src={userImage}
-            className="sm:h-32 sm:w-32 mb-4 rounded-full"
-            alt="user photo"
-          />
+          <div className="flex items-end mb-4 justify-between">
+            <img
+              src={userImage}
+              className="sm:h-32 sm:w-32 rounded-full"
+              alt={`${userLoggedIn.name}'s photo`}
+            />
+            <button className="flex py-1 px-2 border border-slate-900 hover:text-white hover:bg-slate-900/75 gap-2 transition-all relative cursor-pointer">
+              <RiUploadCloud2Line size={22} />
+              <span>Changer le photo</span>
+              <input
+                type="file"
+                onChange={handleImageChange}
+                accept="image/*"
+                className="cursor-pointer absolute bottom-0 left-0 block w-full opacity-0"
+              />
+            </button>
+          </div>
           <div className="flex flex-col gap-2 mb-2">
             <label htmlFor="name">Nom d'utilisateur</label>
             <input
@@ -129,17 +142,6 @@ const ProfilPage = () => {
               />
               <label htmlFor="checkbox">Afficher mot de passe</label>
             </div>
-          </div>
-          <div>
-            <label htmlFor="upload">Télécharger une image</label>
-            <input
-              id="upload"
-              accept="image/*"
-              type="file"
-              ref={inputFileRef}
-              onChange={handleImageChange}
-              className="w-full"
-            />
           </div>
           <button
             type="submit"

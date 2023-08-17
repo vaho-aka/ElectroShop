@@ -18,7 +18,7 @@ const classesLink =
 const MenuAccount = () => {
   const dispatch = useAppDispatch();
   const { userLoggedIn } = useAppSelector((state) => state.user);
-  const [userImage, setUserImage] = useState(userLoggedIn.imageUrl);
+  const [userImage, setUserImage] = useState('');
 
   const logoutHandler = () => {
     dispatch(logout());
@@ -46,7 +46,7 @@ const MenuAccount = () => {
             <RiArrowDropDownLine size={22} />
             <img
               src={userImage}
-              alt="user photo"
+              alt={`${userLoggedIn.name}'s photo`}
               className="h-10 w-10 rounded-full ring-2 hidden sm:inline-block ring-white"
             />
           </div>

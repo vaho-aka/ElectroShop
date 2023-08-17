@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { RiEyeOffLine, RiEyeLine } from 'react-icons/ri';
+import { RiEyeOffLine, RiEyeLine, RiErrorWarningLine } from 'react-icons/ri';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '../hooks';
 import { register } from '../actions/userActions';
@@ -11,7 +11,7 @@ const RegisterPage = () => {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
   const [showPassword, setShowPassword] = useState(false);
-  const { userLoggedIn } = useAppSelector((state) => state.user);
+  const { userLoggedIn, error } = useAppSelector((state) => state.user);
 
   const {
     register: registerForm,
@@ -39,6 +39,12 @@ const RegisterPage = () => {
         <h2 className="text-3xl">Inscription</h2>
       </div>
       <form onSubmit={handleSubmit(submitHandler)}>
+        {error && (
+          <div className="text-red-500 flex gap-2 my-2 bg-red-100 justify-center py-1">
+            <RiErrorWarningLine size={22} />
+            <span>{error}</span>
+          </div>
+        )}
         <div className="flex flex-col gap-2 mb-2">
           <label htmlFor="name">Nom d'utilisateur</label>
           <input

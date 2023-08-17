@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { Crown } from '@phosphor-icons/react';
-import { RiEyeOffLine, RiEyeLine } from 'react-icons/ri';
+import { RiEyeOffLine, RiEyeLine, RiErrorWarningLine } from 'react-icons/ri';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '../hooks';
 import { login } from '../actions/userActions';
@@ -11,7 +11,7 @@ const LoginPage = () => {
   const { search } = useLocation();
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
-  const { userLoggedIn } = useAppSelector((state) => state.user);
+  const { userLoggedIn, error } = useAppSelector((state) => state.user);
   const [showPassword, setShowPassword] = useState(false);
 
   const {
@@ -45,6 +45,12 @@ const LoginPage = () => {
         </span>
       </div>
       <form className="my-5" onSubmit={handleSubmit(submitHandler)}>
+        {error && (
+          <div className="text-red-500 flex gap-2 my-2 bg-red-100 justify-center py-1">
+            <RiErrorWarningLine size={22} />
+            <span>{error}</span>
+          </div>
+        )}
         <div className="flex flex-col gap-2 mb-2">
           <label htmlFor="email">Adresse email</label>
           <input
