@@ -8,7 +8,9 @@ import { RiEmotionHappyLine } from 'react-icons/ri';
 const Cart = () => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
-  const { items, totalAmount } = useAppSelector((state) => state.cart);
+  const { items, totalAmount, showCart } = useAppSelector(
+    (state) => state.cart
+  );
   const { userLoggedIn } = useAppSelector((state) => state.user);
 
   const showCartHandler = () => {
@@ -25,7 +27,7 @@ const Cart = () => {
   };
 
   return (
-    <Modal onClose={showCartHandler}>
+    <Modal showModal={showCart} onClose={showCartHandler}>
       <div className="flex gap-4 items-center justify-between border-b-2">
         <h3 className="text-xl">Prix total:</h3>
         <span>{totalAmount} Ar</span>

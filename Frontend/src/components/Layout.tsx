@@ -19,7 +19,7 @@ const Layout: React.FC<{ children: ReactNode }> = ({ children }) => {
 
   return (
     <div className="bg-gray-50 relative">
-      {showCart && <Cart />}
+      <Cart />
       <MainNaviagation />
       <main className="py-4 w-full flex justify-center main">{children}</main>
       <Footer />
