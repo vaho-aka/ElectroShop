@@ -4,16 +4,20 @@ import { Navigation } from 'swiper/modules';
 
 import 'swiper/css';
 import 'swiper/css/navigation';
+import CarouselItem from './CarouselItem';
+import { useAppSelector } from '../hooks';
 
 const Carousel = () => {
+  const { products } = useAppSelector((state) => state.products);
+
   return (
     <div className="my-4">
       <Swiper navigation={true} modules={[Navigation]}>
-        <SwiperSlide>1</SwiperSlide>
-        <SwiperSlide>2</SwiperSlide>
-        <SwiperSlide>3</SwiperSlide>
-        <SwiperSlide>4</SwiperSlide>
-        <SwiperSlide>5</SwiperSlide>
+        {products.slice(0, 3).map((w) => (
+          <SwiperSlide key={w._id}>
+            <CarouselItem item={w} />
+          </SwiperSlide>
+        ))}
       </Swiper>
     </div>
   );

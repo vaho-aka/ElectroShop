@@ -1,0 +1,35 @@
+name: Node.js CI
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+
+      # Set up Node.js 18
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18'
+
+      # Install dependencies for both frontend and backend
+      - name: Install Backend Dependencies
+        working-directory: ./Backend
+        run: npm install
+
+      - name: Install Frontend Dependencies
+        working-directory: ./Frontend
+        run: npm install
+
+      # Run the app
+      - name: Start the App
+        run: npm run dev

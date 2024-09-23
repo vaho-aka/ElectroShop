@@ -4,7 +4,7 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "dev": "vite --host",
+    "dev": "vite --host --port 5001",
     "build": "vite build",
     "preview": "vite preview"
   },
@@ -29,7 +29,8 @@
     "react-router-dom": "^6.10.0",
     "redux": "^4.2.1",
     "redux-devtools-extension": "^2.13.9",
-    "redux-thunk": "^2.4.2"
+    "redux-thunk": "^2.4.2",
+    "swiper": "^11.0.7"
   },
   "devDependencies": {
     "@types/react": "^18.0.28",
