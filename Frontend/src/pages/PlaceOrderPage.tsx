@@ -34,6 +34,8 @@ const PlaceOrderPage = () => {
     dispatch(placeOrder(order));
   };
 
+  const formatter = new Intl.NumberFormat('de-DE');
+
   return (
     <Stepper>
       {showModal && <ConfirmModal onClose={confirmModalHandler} />}
@@ -63,14 +65,15 @@ const PlaceOrderPage = () => {
                 <span className="bg-white px-1 rounded ml-4">x {amount}</span>
               </div>
               <span className="min-w-fit">
-                {amount * +product.price.split(' ').join('')} Ar
+                {formatter.format(amount * +product.price.split(' ').join(''))}{' '}
+                Ar
               </span>
             </li>
           ))}
         </ul>
         <div className="border-t-2 pt-4 my-4 flex items-center justify-between">
           <h3>Prix Total</h3>
-          <span>{totalAmount} Ar</span>
+          <span>{formatter.format(totalAmount)} Ar</span>
         </div>
         <div className="text-right">
           <button

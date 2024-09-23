@@ -48,7 +48,7 @@ const Stepper: React.FC<{ children: ReactNode }> = ({ children }) => {
             <span
               className={`flex items-center justify-center w-8 h-8 border border-emerald-600 ${
                 shippingAddress.address && 'bg-emerald-600'
-              } rounded-full shrink-0 dark:border-blue-500`}
+              } rounded-full shrink-0 dark:border-emerald-500`}
             >
               {shippingAddress.address ? <Check size={24} color="white" /> : 1}
             </span>
@@ -76,7 +76,7 @@ const Stepper: React.FC<{ children: ReactNode }> = ({ children }) => {
                 shippingAddress.address
                   ? 'border-emerald-600'
                   : 'border-gray-600'
-              } rounded-full shrink-0 dark:border-blue-500`}
+              } rounded-full shrink-0 dark:border-emerald-500`}
             >
               2
             </span>

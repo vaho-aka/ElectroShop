@@ -26,11 +26,13 @@ const Cart = () => {
     dispatch(cartActions.SHOW_CART());
   };
 
+  const formatter = new Intl.NumberFormat('de-DE');
+
   return (
     <Modal showModal={showCart} onClose={showCartHandler}>
       <div className="flex gap-4 items-center justify-between border-b-2">
         <h3 className="text-xl">Prix total:</h3>
-        <span>{totalAmount} Ar</span>
+        <span>{formatter.format(totalAmount)} Ar</span>
       </div>
       <div className="my-4 p-1 overflow-y-scroll max-h-[20rem]">
         {items[0] ? (

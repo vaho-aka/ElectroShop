@@ -19,6 +19,27 @@ export const getProducts = (): AppThunk => async (dispatch) => {
   }
 };
 
+export const getSearchProducts =
+  (keyword: string): AppThunk =>
+  async (dispatch) => {
+    try {
+      dispatch(productActions.GET_PRODUCT_REQUEST());
+
+      const { data } = await axios.get<Item[]>(
+        `/api/v1/product?keyword=${keyword}`
+      );
+
+      dispatch(productActions.GET_PRODUCT_SUCCESS(data));
+    } catch (error: any) {
+      const message =
+        error.response && error.response.data.message
+          ? error.response.data.message
+          : error.message;
+
+      dispatch(productActions.GET_PRODUCT_FAIL(message));
+    }
+  };
+
 export const getProductById =
   (id?: string): AppThunk =>
   async (dispatch) => {
