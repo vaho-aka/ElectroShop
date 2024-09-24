@@ -8,6 +8,8 @@ const Card: React.FC<{ product: Item; loading?: boolean }> = ({
   product,
   loading,
 }) => {
+  const formatter = new Intl.NumberFormat('de-DE');
+
   return (
     <figure className="w-60 shadow-lg shadow-gray-300 p-2 flex flex-col gap-4 bg-gray-150 rounded last-of-type:justify-self-start bg-white">
       {loading ? (
@@ -33,7 +35,7 @@ const Card: React.FC<{ product: Item; loading?: boolean }> = ({
               <Rating value={product.rating} />
               <span className="text-gray-500">({product.numReviews})</span>
             </div>
-            <p>{product.price} Ar</p>
+            <p>{formatter.format(product.price)} Ar</p>
           </>
         )}
         {loading ? (

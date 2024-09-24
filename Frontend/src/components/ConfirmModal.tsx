@@ -19,7 +19,7 @@ const ConfirmModal: React.FC<{ onClose: () => void }> = ({ onClose }) => {
     <Modal onClose={onClose}>
       <div className="w-full text-center mb-4">
         <span>
-          Voulez-vous vraiment{' '}
+          Voulez-vous vraiment
           <span className="text-red-500">annuler votre commande</span> ?
         </span>
         <p>Toutes vos données seront effacées</p>

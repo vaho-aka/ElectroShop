@@ -31,11 +31,11 @@ const MainNaviagation = () => {
     dispatch(cartActions.SHOW_CART());
   };
 
-  const searchHandler = () => {
-    console.log(searchValue);
+  // const searchHandler = () => {
+  //   console.log(searchValue);
 
-    dispatch(getSearchProducts(searchValue));
-  };
+  //   dispatch(getSearchProducts(searchValue));
+  // };
 
   return (
     <header className="py-4 text-neutral-200 bg-slate-900 flex justify-center">
@@ -44,20 +44,18 @@ const MainNaviagation = () => {
           <Link to="/" className="text-2xl">
             <h5>ElectroShop</h5>
           </Link>
-          <form
-            onSubmit={(e) => {
-              e.preventDefault();
-              searchHandler();
-            }}
-            className="border border-slate-600 rounded flex items-center"
-          >
+          <form className="border border-slate-600 rounded flex items-center">
             <input
               type="search"
-              onChange={(e) => setSearchValue(e.target.value)}
+              onChange={(e) => dispatch(getSearchProducts(e.target.value))}
               className="border-0 bg-transparent focus:outline-none ml-2"
             />
             <button className="hover:bg-emerald-500 transition-all border-l border-slate-600 hover:text-slate-800 rounded-e py-1 px-4">
-              <RiSearchLine size={26} className="" />
+              {searchValue ? (
+                <RiCloseLine size={26} />
+              ) : (
+                <RiSearchLine size={26} className="" />
+              )}
             </button>
           </form>
         </div>

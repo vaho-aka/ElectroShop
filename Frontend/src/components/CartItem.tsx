@@ -28,6 +28,8 @@ const CartItem: React.FC<{ item: Item; amount: number }> = ({
     }
   };
 
+  const formatter = new Intl.NumberFormat('de-DE');
+
   return (
     <div className="w-full flex items-center my-2 bg-slate-100 rounded">
       <div className="w-[10rem] h-[6.25rem] my-2">
@@ -39,7 +41,7 @@ const CartItem: React.FC<{ item: Item; amount: number }> = ({
       </div>
       <div className="mx-4">
         <h3>{item.name}</h3>
-        <span>{item.price} Ar</span>
+        <span>{formatter.format(item.price)} Ar</span>
       </div>
       <div className="flex flex-col sm:flex-row items-center gap-5 p-4 max-w-fit ml-auto">
         <button className="bg-gray-400 rounded" onClick={descreaseItemNumber}>

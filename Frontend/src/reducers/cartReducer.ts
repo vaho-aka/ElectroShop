@@ -27,7 +27,7 @@ const cartReducer = createSlice({
   initialState,
   reducers: {
     ADD_ITEM(state, action: PayloadAction<CartItem>) {
-      const price = +action.payload.product.price.split(' ').join('');
+      const price = action.payload.product.price;
 
       const itemIndex = state.items.findIndex(
         ({ product }) => product._id === action.payload.product._id
@@ -37,7 +37,7 @@ const cartReducer = createSlice({
 
       if (!existItem) {
         state.totalAmount += price * action.payload.amount;
-        console.log(state.totalAmount);
+        // console.log(state.totalAmount);
         state.items = [...state.items, action.payload];
       } else {
         state.totalAmount -= price * existItem.amount;
@@ -67,7 +67,7 @@ const cartReducer = createSlice({
 
       const itemToRemove = state.items[itemIndex];
 
-      const price = +itemToRemove.product.price.split(' ').join('');
+      const price = itemToRemove.product.price;
       state.totalAmount -= price;
 
       const updatedItem = {

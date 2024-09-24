@@ -39,8 +39,8 @@ const PlaceOrderPage = () => {
   return (
     <Stepper>
       {showModal && <ConfirmModal onClose={confirmModalHandler} />}
-      <div className="sm:border rounded p-4 sm:min-w-[400px] sm:bg-white">
-        <div className="flex border-b-2 pb-2">
+      <div className=" rounded sm:min-w-[400px] sm:bg-white sm:shadow">
+        <div className="flex py-4 px-2">
           <div className="flex flex-col gap-1 w-fit mr-4">
             <span>Nom</span>
             <span>Email</span>
@@ -54,36 +54,38 @@ const PlaceOrderPage = () => {
             <span>{`${shippingAddress.address}, ${shippingAddress.neighbour}, ${shippingAddress.city}`}</span>
           </div>
         </div>
-        <ul className="mt-4">
+        <ul className="my-4 bg-slate-300 px-2">
           {items.map(({ product, amount }) => (
             <li
               key={product._id}
-              className="bg-slate-300 rounded p-2 my-2 flex items-center justify-between"
+              className=" py-2 flex items-center justify-between"
             >
               <div>
                 <span>{product.name}</span>
-                <span className="bg-white px-1 rounded ml-4">x {amount}</span>
+                <span className="bg-white px-4 rounded-full ml-4">
+                  x {amount}
+                </span>
               </div>
               <span className="min-w-fit">
-                {formatter.format(amount * +product.price.split(' ').join(''))}{' '}
+                {formatter.format(amount * product.price)}
                 Ar
               </span>
             </li>
           ))}
         </ul>
-        <div className="border-t-2 pt-4 my-4 flex items-center justify-between">
+        <div className=" p-2 flex items-center justify-between">
           <h3>Prix Total</h3>
           <span>{formatter.format(totalAmount)} Ar</span>
         </div>
-        <div className="text-right">
-          <button
-            className="py-1 px-6 mx-5 bg-gray-200 text-gray-700 rounded"
-            onClick={confirmModalHandler}
+        <div className="flex w-full py-4 px-2 gap-2">
+          <a
+            href="/shipping"
+            className="py-1 flex-1 px-6 text-center bg-gray-200 text-gray-700 rounded"
           >
-            Annuler
-          </button>
+            Retoure
+          </a>
           <button
-            className="py-1 px-6 bg-emerald-600 rounded text-white"
+            className="py-1 flex-1 px-6 bg-emerald-600 rounded text-white"
             onClick={placeOrderHandler}
           >
             Valider

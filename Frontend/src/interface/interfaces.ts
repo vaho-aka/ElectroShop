@@ -10,7 +10,7 @@ export interface User {
 export interface Item {
   _id: string;
   name: string;
-  price: string;
+  price: number;
   description: string;
   brand: string;
   category: string;
@@ -76,6 +76,7 @@ export interface OrderState extends State {
 
 export interface ProductState extends State {
   products: Array<Item>;
+  search: Array<Item>;
   product: Item;
   reviews: Array<Review>;
   message: string;

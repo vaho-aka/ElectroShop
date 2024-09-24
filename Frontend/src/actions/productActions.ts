@@ -29,7 +29,7 @@ export const getSearchProducts =
         `/api/v1/product?keyword=${keyword}`
       );
 
-      dispatch(productActions.GET_PRODUCT_SUCCESS(data));
+      dispatch(productActions.GET_SEARCH_PRODUCT(data));
     } catch (error: any) {
       const message =
         error.response && error.response.data.message

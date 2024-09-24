@@ -3,10 +3,11 @@ import { ProductState, Item, Review } from '../interface/interfaces';
 
 const initialState: ProductState = {
   products: [],
+  search: [],
   product: {
     _id: '',
     name: '',
-    price: '',
+    price: 0,
     description: '',
     brand: '',
     category: '',
@@ -45,6 +46,10 @@ const productReducer = createSlice({
     GET_PRODUCT_FAIL(state, action: PayloadAction<string>) {
       state.loading = false;
       state.error = action.payload;
+    },
+    GET_SEARCH_PRODUCT(state, action: PayloadAction<Item[]>) {
+      state.loading = false;
+      state.search = action.payload;
     },
   },
 });

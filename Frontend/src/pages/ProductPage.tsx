@@ -73,6 +73,8 @@ const ProductDetailPage: React.FC<{ loading?: boolean }> = ({ loading }) => {
     navigate('/login?redirect=' + pathname);
   };
 
+  const formatter = new Intl.NumberFormat('de-DE');
+
   return (
     <div className="max-w-[1300px]">
       <div className="grid grid-cols-1 max-w-[700px] lg:grid-cols-2 gap-5 lg:items-stretch lg:max-w-none">
@@ -107,7 +109,7 @@ const ProductDetailPage: React.FC<{ loading?: boolean }> = ({ loading }) => {
             ) : (
               <>
                 <h3 className="text-xl underline">Prix:</h3>
-                <span>{product.price} Ar</span>
+                <span>{formatter.format(product.price)} Ar</span>
               </>
             )}
           </div>
