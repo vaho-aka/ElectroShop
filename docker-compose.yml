@@ -32,9 +32,28 @@ services:
     ports:
       - '27017:27017'
     volumes:
-      - ./data/db:/db
+      - ./data/db:/data/db
+      - ./database:/database
     networks:
       - app_network
+    command: mongod --bind_ip_all
+    healthcheck:
+      test: echo 'db.runCommand("ping").ok' | mongosh localhost:27017/test --quiet
+      interval: 10s
+      timeout: 10s
+      retries: 5
+      start_period: 40s
+
+  mongo-seed:
+    image: mongo:latest
+    volumes:
+      - ./database:/database
+    networks:
+      - app_network
+    depends_on:
+      mongodb:
+        condition: service_healthy
+    command: mongorestore --host mongodb --db ElectroShop /database
 
 networks:
   app_network:

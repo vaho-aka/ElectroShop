@@ -35,7 +35,7 @@ const LoginPage = () => {
   };
 
   return (
-    <div className="max-w-[400px] flex flex-col sm:border p-4 rounded-md my-10 sm:bg-white sm:shadow-lg sm:shadow-gray-300 h-fit">
+    <div className="max-w-[400px] w-full flex flex-col sm:border p-4 rounded-md my-10 sm:bg-white sm:shadow-lg sm:shadow-gray-300 h-fit">
       <div className="w-full">
         <div className="flex m-auto justify-center items-center h-20 w-20 rounded-full ring-2 ring-emerald-600 text-emerald-600">
           <Crown size={50} />
