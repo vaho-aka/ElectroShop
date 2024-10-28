@@ -21,7 +21,7 @@ const Layout: React.FC<{ children: ReactNode }> = ({ children }) => {
     <div className="bg-gray-50 relative flex flex-col h-[100vh] justify-between">
       <Cart />
       <MainNaviagation />
-      <main className="py-4 w-full flex justify-center">{children}</main>
+      <main className="w-full flex justify-center">{children}</main>
       <Footer />
     </div>
   );

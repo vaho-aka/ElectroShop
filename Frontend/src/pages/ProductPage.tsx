@@ -76,8 +76,8 @@ const ProductDetailPage: React.FC<{ loading?: boolean }> = ({ loading }) => {
   const formatter = new Intl.NumberFormat('de-DE');
 
   return (
-    <div className="max-w-[1300px]">
-      <div className="grid grid-cols-1 max-w-[700px] lg:grid-cols-2 gap-5 lg:items-stretch lg:max-w-none">
+    <div className="max-w-[1300px] h-full">
+      <div className="grid grid-cols-1 py-4 max-w-[700px] lg:grid-cols-2 h-full gap-5 lg:items-stretch lg:max-w-none">
         <div className="bg-white flex justify-center items-center border-y sm:border sm:rounded py-20 lg:p-4">
           {loading ? (
             <LoadingSpinner />

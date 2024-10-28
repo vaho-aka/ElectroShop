@@ -31,12 +31,6 @@ const MainNaviagation = () => {
     dispatch(cartActions.SHOW_CART());
   };
 
-  const searchHandler = () => {
-    console.log(searchValue);
-
-    dispatch(getSearchProducts(searchValue));
-  };
-
   return (
     <header className="py-4 text-neutral-200 bg-slate-900 flex justify-center">
       <nav className="px-4 sm:px-6 flex items-center gap-4 justify-between max-w-[1400px] w-full">
@@ -45,7 +39,10 @@ const MainNaviagation = () => {
             <h5>ElectroShop</h5>
           </Link>
           <form
-            onSubmit={searchHandler}
+            onSubmit={(e) => {
+              e.preventDefault();
+              dispatch(getSearchProducts(searchValue));
+            }}
             className="border border-slate-600 rounded flex items-center"
           >
             <input

@@ -63,6 +63,7 @@ export const createRating = asyncHandler(async (req, res) => {
     productId: product._id,
     user: req.user._id,
   });
+
   const reviews = await Review.find({ productId: product._id }).populate(
     'user'
   );
